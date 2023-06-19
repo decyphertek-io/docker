@@ -1,1 +1,1 @@
-### WORK IN PROGRESS .... MOST OF THESE DO NOT WORK YET ###
+### Quickly launch docker servers ###

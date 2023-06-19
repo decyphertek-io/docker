@@ -1,7 +1,5 @@
-# I modified Openvas and password variables
-# Its currently not working
-# https://github.com/archerysec/archerysec/blob/master/docker-compose.yml
 version: '3.6'
+
 services:
   db:
     image: postgres:10.1-alpine
@@ -9,7 +7,7 @@ services:
       - ./dbdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=archerysec
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=archerysec
       - POSTGRES_USER=archerysec
 
   archerysec:
@@ -23,11 +21,11 @@ services:
     links:
       - db:db
     environment:
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=archerysec
       - DB_USER=archerysec
       - NAME=user
-      - EMAIL=${EMAIL}
-      - PASSWORD=${PASSWORD}
+      - EMAIL=adminotaur@decyphertek.io
+      - PASSWORD=admin@123A
       - DB_NAME=archerysec
       - DB_HOST=db
       - DJANGO_SETTINGS_MODULE=archerysecurity.settings.development
@@ -45,11 +43,11 @@ services:
     links:
       - db
     environment:
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=archerysec
       - DB_USER=archerysec
       - NAME=user
-      - EMAIL=${EMAIL}
-      - PASSWORD=${PASSWORD}
+      - EMAIL=admin@user.com
+      - PASSWORD=admin@123A
       - DB_NAME=archerysec
       - DB_HOST=db
       - DJANGO_SETTINGS_MODULE=archerysecurity.settings.development
@@ -81,7 +79,7 @@ services:
       - "9292:9292"
       - "7331:7331"
     environment:
-      - ARACHNI_PARAMS="--authentication-username arachni --authentication-password ${ARACHNI_PASSWORD} --verbose --reroute-to-logfile --debug 3"
+      - ARACHNI_PARAMS="--authentication-username arachni --authentication-password password --verbose --reroute-to-logfile --debug 3"
     links:
       - archerysec
     container_name: arachniscanner
@@ -106,3 +104,4 @@ services:
       - "1025:1025"
       - "8025:8025"
     container_name: mailhog
+
