@@ -1,0 +1,3 @@
+# Works well, can be part of base Faltcar LTS. Is encrypted and asks to set a password. 
+# I can change the port number if you wish. 
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest

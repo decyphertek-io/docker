@@ -1,0 +1,33 @@
+# Need to set password with a startup script.
+# Need to setup Self Signed Reverse Proxy.
+
+version: "3.8"
+services:
+  ingress:
+    image: nginx:latest
+    container_name: nginx-reverse-proxy
+    ports:
+      - '443:443'
+    volumes:
+      - /home/core/ssl:/etc/nginx/ssl
+      - /home/core/.code-server/default.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=${password} 
+      #- HASHED_PASSWORD= #optional
+      #- SUDO_PASSWORD=password #optional
+      #- SUDO_PASSWORD_HASH= #optional
+      #- PROXY_DOMAIN=code-server.my.domain #optional
+      - DEFAULT_WORKSPACE=/config/workspace 
+    volumes:
+      - /path/to/appdata/config:/config
+    ports:
+      - 8443:8443
+    restart: unless-stopped

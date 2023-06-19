@@ -1,0 +1,11 @@
+# https://mpolinowski.github.io/docs/DevOps/NGINX/2020-08-27--nginx-docker-ssl-certs-self-signed/2020-08-27/
+# docker run -d --name nginx -p 443:443 nginx:latest
+
+version: '3.8'
+services:
+  ingress:
+    image: nginx:latest
+    container_name: nginx-reverse-proxy
+    ports:
+      - '443:443'
+    restart: unless-stopped

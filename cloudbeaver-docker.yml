@@ -1,0 +1,3 @@
+# https://github.com/dbeaver/cloudbeaver/wiki/Run-Docker-Container
+# This Works Well, has a setup portion, can sell if I can encrypt and make persistant
+docker run -d --name cloudbeaver --rm -ti -p 8080:8978 -v /var/cloudbeaver/workspace:/opt/cloudbeaver/workspace dbeaver/cloudbeaver:latest
