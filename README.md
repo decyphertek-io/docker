@@ -32,7 +32,7 @@ Docker - Basic Commands:
     $ docker start CONTAINER_ID
     $ docker rm CONTAINER_ID
 
-Docker Compose 0 Basic Commands:
+Docker Compose - Basic Commands:
 --------------------------------
 
     # The old way to run docker compose 
