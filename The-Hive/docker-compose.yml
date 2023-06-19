@@ -1,11 +1,12 @@
 # https://github.com/TheHive-Project/Docker-Templates/blob/main/docker/thehive4-cortex31-nginx-https/docker-compose.yml
+# Fails - network proxy declared as external, but could not be found
 
 version: "3.8"
 services:
   nginx:
     container_name: nginx
     hostname: nginx
-    image: nginx:1.19.5
+    image: nginx:latest
     ports:
       - 80:80
       - 443:443
@@ -92,4 +93,4 @@ services:
 networks:
   backend:
   proxy:
-    external: true
+    external: false
