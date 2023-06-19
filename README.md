@@ -17,10 +17,12 @@ Docker - Debian Quick Install:
 Docker - Basic Commands:
 ------------------------
 
+    # run A container example
+    $ docker run -d --name nginx -p 443:443 nginx:latest
     # Search a container - Example
-    $ docker search ubuntu
+    $ docker search nginx
     # Download the container
-    $ docker pull ubuntu
+    $ docker pull nginx
     # See Running Containers
     $ docker ps
     # See All Containers
@@ -31,6 +33,10 @@ Docker - Basic Commands:
     $ docker stop CONTAINER_ID
     $ docker start CONTAINER_ID
     $ docker rm CONTAINER_ID
+    # Enter docker bash shell
+    $ docker exec -it ContainerName bash
+    # Execute docker command from terminal
+    $ docker exec -it ContainerName Command
 
 Docker Compose - Basic Commands:
 --------------------------------
