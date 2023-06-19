@@ -1,5 +1,4 @@
 # https://github.com/crowdsecurity/example-docker-compose/blob/main/docker-compose.yml
-# Untested
 
 version: '3'
 

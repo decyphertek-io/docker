@@ -1,5 +1,6 @@
 # https://hub.docker.com/r/linuxserver/mastodon
-# untested - looks like the domain settings will cause trouble
+# need a domain or will cause trouble
+# Research how to not use a domain and set to local.
 
 version: "2.1"
 services:

@@ -1,5 +1,4 @@
 # https://docs.gitlab.com/ee/install/docker.html
-# untested
 
 version: '3.6'
 services:

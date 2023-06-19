@@ -1,8 +1,6 @@
 # https://nginxproxymanager.com/guide/#hosting-your-home-network
 # Email:    admin@example.com
 # Password: changeme
-# Works , odd you have to use port 81? 
-# No self signed certs?
 
 version: '3.8'
 services:

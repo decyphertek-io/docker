@@ -1,6 +1,5 @@
-# Has a default username & password
-# Default admin login: Username: admin Password: admin123
 # https://hub.docker.com/r/linuxserver/calibre-web
+# Username: admin Password: admin123
 
 version: "2.1"
 services:
