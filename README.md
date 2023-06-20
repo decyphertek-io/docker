@@ -7,7 +7,7 @@ Docker is a lightweight container platform.
 Docker - Debian Quick Install:
 -----------------------------
 
-    # Debian based - Installs docker & docker compose.
+    # Ubuntu - Installs docker & docker compose.
     $ curl -fsSL https://raw.githubusercontent.com/decyphertek-io/configs/main/bash-scripts/docker.sh | bash
     <OR>
     # Docker's Convience Script Debian
