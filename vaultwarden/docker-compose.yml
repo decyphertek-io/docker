@@ -1,0 +1,12 @@
+# https://hub.docker.com/r/vaultwarden/server
+# docker run -d --name vaultwarden -v /vw-data/:/data/ -p 80:80 vaultwarden/server:latest
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    ports:
+      - '80:80'
+    volumes:
+      - /vw-data/:/data/
+    restart: always
