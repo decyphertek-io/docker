@@ -3,6 +3,7 @@
 # docker-compose --env-file opencti.env up -d
 # <OR>
 # docker compose --env-file opencti.env up -d
+# Fails - Need to troubleshoot. 
 
 services:
   redis:
