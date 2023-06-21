@@ -1,0 +1,8 @@
+#https://noted.lol/chatpad/
+
+services:
+  web:
+    image: itsnoted/chatpad:latest
+    container_name: chatpad
+    ports:
+      - "8200:80"
