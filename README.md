@@ -1,21 +1,56 @@
-Get started with docker
-=======================
+Docker
+=====
 
-Docker is a lightweight container platform. 
+Docker is a containerization platform that simplifies configs and the deployemnt of 
+Enterprise or dev applications. 
 
+Getting Started
+---------------
 
-Docker - Debian Quick Install:
------------------------------
+    # Make sure Docker, Docker compose, and git is installed.
+    $ git clone https://github.com/decyphertek-io/docker.git
+    $ cd docker
+    # Choose which server you want to launch. ( A few are not in docker-compose format, so have to run command manually) 
+    $ cd ServerName
+    # Docker compose has two commands depending on how you installed it. ( Plugin vs binary )
+    $ docker-compose up -d 
+    <OR>
+    $ docker compose up -d 
 
-    # Ubuntu - Installs docker & docker compose.
-    $ curl -fsSL https://raw.githubusercontent.com/decyphertek-io/configs/main/bash-scripts/docker.sh | bash
+Quick Install
+-------------
+
+    # Ubuntu ( Will Fail on Debian or other distros )
+    $ curl -fsSL https://raw.githubusercontent.com/decyphertek-io/bash/main/docker.sh | bash
     <OR>
     # Docker's Convience Script Debian
     $ curl -fsSL https://get.docker.com -o get-docker.sh
     $ sudo sh get-docker.sh
 
-Docker - Basic Commands:
-------------------------
+Install
+-------
+
+    $ sudo apt update
+    $ sudo apt-get install ca-certificates curl gnupg lsb-release
+    $ sudo mkdir -p /etc/apt/keyrings
+    $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    $ echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    $ sudo apt-get update
+    $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose docker-compose-plugin
+    $ sudo groupadd docker
+    $ sudo usermod -aG docker $USER
+    $ sudo systemctl enable docker.service
+    $ sudo systemctl start docker.service
+    # Install docker compose plugin
+    $ sudo apt-get install docker-compose-plugin
+    # Verify docker-compose plugin
+    $ docker compose version
+    # May have to logout and back in to avoid docker error.
+
+Manage Docker
+-------------
 
     # run A container example
     $ docker run -d --name nginx -p 443:443 nginx:latest
@@ -38,41 +73,40 @@ Docker - Basic Commands:
     # Execute docker command from terminal
     $ docker exec -it ContainerName Command
 
-Docker Compose - Basic Commands:
---------------------------------
+Docker Compose Commands
+-----------------------
 
     # The old way to run docker compose 
-    # Depending on how you installed Docker Compose, can modify
     $ docker-compose up -d
     # Docker Plugin uses docker compose instead of docker-compose
-    $ docker compose build      Build or rebuild services
-    $ docker compose convert    Converts the compose file to platform’s canonical format
-    $ docker compose cp         Copy files/folders between a service container and the local filesystem
-    $ docker compose create     Creates containers for a service.
-    $ docker compose down       Stop and remove containers, networks
-    $ docker compose events     Receive real time events from containers.
-    $ docker compose exec       Execute a command in a running container.
-    $ docker compose images     List images used by the created containers
-    $ docker compose kill       Force stop service containers.
-    $ docker compose logs       View output from containers
-    $ docker compose ls         List running compose projects
-    $ docker compose pause      Pause services
-    $ docker compose port       Print the public port for a port binding.
-    $ docker compose ps         List containers
-    $ docker compose pull       Pull service images
-    $ docker compose push       Push service images
-    $ docker compose restart    Restart service containers
-    $ docker compose rm         Removes stopped service containers
-    $ docker compose run        Run a one-off command on a service.
-    $ docker compose start      Start services
-    $ docker compose stop       Stop services
-    $ docker compose top        Display the running processes
-    $ docker compose unpause    Unpause services
-    $ docker compose up         Create and start containers
-    $ docker compose version    Show the Docker Compose version information
+    $ docker compose build 	    Build or rebuild services
+    $ docker compose convert 	Converts the compose file to platform’s canonical format
+    $ docker compose cp 	    Copy files/folders between a service container and the local filesystem
+    $ docker compose create 	Creates containers for a service.
+    $ docker compose down 	    Stop and remove containers, networks
+    $ docker compose events 	Receive real time events from containers.
+    $ docker compose exec 	    Execute a command in a running container.
+    $ docker compose images 	List images used by the created containers
+    $ docker compose kill 	    Force stop service containers.
+    $ docker compose logs 	    View output from containers
+    $ docker compose ls 	    List running compose projects
+    $ docker compose pause 	    Pause services
+    $ docker compose port 	    Print the public port for a port binding.
+    $ docker compose ps 	    List containers
+    $ docker compose pull 	    Pull service images
+    $ docker compose push 	    Push service images
+    $ docker compose restart 	Restart service containers
+    $ docker compose rm 	    Removes stopped service containers
+    $ docker compose run 	    Run a one-off command on a service.
+    $ docker compose start 	    Start services
+    $ docker compose stop 	    Stop services
+    $ docker compose top 	    Display the running processes
+    $ docker compose unpause 	Unpause services
+    $ docker compose up 	    Create and start containers
+    $ docker compose version 	Show the Docker Compose version information
 
 Optional: UFW & Docker
------------------------
+----------------------
 
     # Docker bypasses UFW host firewall. There is a fix. 
     $ sudo wget -O /usr/local/bin/ufw-docker https://github.com/chaifeng/ufw-docker/raw/master/ufw-docker
@@ -103,7 +137,7 @@ Optional: Portainer
     # login
 
 Optional: Yacht
-----------------
+---------------
 
     $ docker volume create yacht
     $ docker run -d -p 8000:8000 -v /var/run/docker.sock:/var/run/docker.sock -v yacht:/config selfhostedpro/yacht
@@ -112,18 +146,18 @@ Optional: Yacht
     # Replace localhost with your IP.
     # http://localhost:8000
     # User: admin@yacht.local Pass: pass
-    # Add templates - https://raw.githubusercontent.com/SelfhostedPro/selfhosted_templates/master/Template/yacht.json
+    # Add templates - https://raw.githubusercontent.com/SelfhostedPro/selfhosted_templates/master/Template/yacht.json 
 
 Optional: Lazy Docker
-----------------------
+---------------------
 
     $ curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
     # Logout and back in
     $ lazydocker
-    # Follow command prompts listed to manage docker completely from terminal , easily.
+    # Follow command prompts listed to manage docker completely from terminal , easily. 
 
 Optional: Gvisor ( Container Security Platform)
-------------------------------------------------
+----------------
 
     # https://gvisor.dev/
     $ sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
@@ -143,11 +177,11 @@ Optional: LinuxServers.io
     https://docs.linuxserver.io/
     https://fleet.linuxserver.io/
 
-
 Optional: DockStarter
---------------------
+---------------------
 
     https://dockstarter.com/
+
 
 Optional: Trivy
 ---------------
@@ -155,7 +189,7 @@ Optional: Trivy
     https://github.com/aquasecurity/trivy
 
 References
------------
+----------
 
     https://docs.docker.com/compose/install/compose-plugin/#install-the-plugin-manually
     https://docs.portainer.io/start/install/server/docker/linux
@@ -163,3 +197,4 @@ References
     https://docs.docker.com/engine/install/ubuntu/
     https://yacht.sh/docs/Installation/Getting_Started
     https://www.howtogeek.com/devops/how-to-use-docker-with-a-ufw-firewall/
+
