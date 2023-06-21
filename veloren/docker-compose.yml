@@ -1,6 +1,7 @@
 # https://gitlab.com/veloren/veloren/-/raw/master/server-cli/docker-compose.yml
 # https://book.veloren.net/players/server-hosting/on-docker.html
 # docker exec -it valoren-game-server-master bash
+# Issue? admin command not found???
 # (<ROLE> can be either Admin or Moderator.)
 # admin add <USER> <ROLE>
 
