@@ -1,0 +1,10 @@
+# https://github.com/mpepping/docker-cyberchef
+# docker run -d -p 8000:8000 mpepping/cyberchef
+
+services:
+  cyberchef:
+    image: mpepping/cyberchef
+    container_name: cyberchef
+    ports:
+      - '8000:8000'
+    restart: always
