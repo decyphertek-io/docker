@@ -1,6 +1,5 @@
 # https://docs.linuxserver.io/images/docker-code-server
 
-version: "3.8"
 services:
   code-server:
     image: lscr.io/linuxserver/code-server:latest

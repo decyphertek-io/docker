@@ -1,7 +1,5 @@
 # https://github.com/crowdsecurity/example-docker-compose/blob/main/docker-compose.yml
 
-version: '3'
-
 services:
   #the application itself : static html served by apache2.
   #the html can be found in ./app/

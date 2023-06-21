@@ -1,3 +1,13 @@
 # https://github.com/dbeaver/cloudbeaver/wiki/Run-Docker-Container
+# docker run -d --name cloudbeaver --rm -ti -p 8080:8978 -v /var/cloudbeaver/workspace:/opt/cloudbeaver/workspace dbeaver/cloudbeaver:latest
 
-docker run -d --name cloudbeaver --rm -ti -p 8080:8978 -v /var/cloudbeaver/workspace:/opt/cloudbeaver/workspace dbeaver/cloudbeaver:latest
+services:
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: cloudbeaver
+    ports:
+      - '8080:8978'
+    volumes:
+      - /var/cloudbeaver/workspace:/opt/cloudbeaver/workspace
+    restart: always
+    

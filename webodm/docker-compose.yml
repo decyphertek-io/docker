@@ -1,6 +1,5 @@
 # https://github.com/OpenDroneMap/WebODM/blob/master/docker-compose.yml
 
-version: '2.1'
 volumes:
   dbdata:
   appmedia:

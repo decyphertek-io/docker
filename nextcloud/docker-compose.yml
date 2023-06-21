@@ -1,7 +1,5 @@
 # Apache Version - https://github.com/nextcloud/docker
 
-version: '2'
-
 volumes:
   nextcloud:
   db:

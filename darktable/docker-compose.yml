@@ -1,6 +1,5 @@
 # https://hub.docker.com/r/linuxserver/darktable
 
-version: "2.1"
 services:
   darktable:
     image: lscr.io/linuxserver/darktable:latest

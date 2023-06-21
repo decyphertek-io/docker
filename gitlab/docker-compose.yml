@@ -1,6 +1,5 @@
 # https://docs.gitlab.com/ee/install/docker.html
 
-version: '3.6'
 services:
   web:
     image: 'gitlab/gitlab-ee:latest'

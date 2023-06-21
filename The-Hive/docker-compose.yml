@@ -1,7 +1,6 @@
 # https://github.com/TheHive-Project/Docker-Templates/blob/main/docker/thehive4-cortex31-nginx-https/docker-compose.yml
 # Fails - Gets stuck on creating images , I also had to modify from external to false, since that was producing an error too. 
 
-version: "3.8"
 services:
   nginx:
     container_name: nginx

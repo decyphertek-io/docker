@@ -1,7 +1,5 @@
 # https://github.com/wazuh/wazuh-docker/blob/master/single-node/docker-compose.yml
 
-version: '3.7'
-
 services:
   wazuh.manager:
     image: wazuh/wazuh-manager:4.6.0
