@@ -3,7 +3,7 @@
 # docker-compose --env-file opencti.env up -d
 # <OR>
 # docker compose --env-file opencti.env up -d
-# Fails - Need to troubleshoot. 
+# Fails access to pulic IP? - Need to troubleshoot. 
 
 services:
   redis:
