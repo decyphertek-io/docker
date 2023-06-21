@@ -1,0 +1,4 @@
+# https://jfrog.com/help/r/jfrog-installation-setup-documentation/install-artifactory-single-node-with-docker-compose
+
+docker pull releases-docker.jfrog.io/jfrog/artifactory-pro:latest
+docker run -d -p 8000:8000 --name jfrog --restart=always releases-docker.jfrog.io/jfrog/artifactory-pro:latest
