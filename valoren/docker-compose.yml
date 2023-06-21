@@ -1,4 +1,5 @@
 # https://gitlab.com/veloren/veloren/-/raw/master/server-cli/docker-compose.yml
+# https://book.veloren.net/players/server-hosting/on-docker.html
 
 services:
   game-server:
