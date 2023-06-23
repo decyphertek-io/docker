@@ -4,7 +4,7 @@
 
 services:
   web:
-    image: 'gitlab/gitlab-ee:latest'
+    image: 'gitlab/gitlab-ce:latest'
     restart: always
     hostname: 'localhost'
     environment:
