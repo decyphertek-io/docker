@@ -80,6 +80,8 @@ Docker Compose Commands
     $ docker-compose up -d
     # Pass varibales: docker-compose.yml variable ${EXAMPLE} > example.env variable EXAMPLE=changeme
     $ docker-compose --env-file example.env up -d
+    # Docker compose build
+    $ docker-compose up -d --build
     # Docker Plugin uses docker compose instead of docker-compose
     $ docker compose build 	    Build or rebuild services
     $ docker compose convert 	Converts the compose file to platform’s canonical format
