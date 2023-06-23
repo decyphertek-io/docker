@@ -1,0 +1,2 @@
+# https://www.okd.io/installation/#getting-started
+# https://github.com/okd-project/okd/releases
