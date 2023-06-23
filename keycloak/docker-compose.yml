@@ -1,0 +1,17 @@
+# https://www.keycloak.org/getting-started/getting-started-docker
+# docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:21.1.1 start-dev
+# vim keycloak.env and set the variables.
+# docker-compose --env-file keycloak.env up -d
+# <OR>
+# docker compose --env-file keycloak.env up -d
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    container_name: keycloak
+    ports:
+      - '8080:8080'
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+    restart: unless-stopped
