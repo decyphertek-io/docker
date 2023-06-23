@@ -1,7 +1,7 @@
 Brewing 
 ========
 
-"Brewing is the production of beer by steeping a starch source (commonly cereal grains, the most popular of which is barley)[1] in water and fermenting the resulting sweet liquid with yeast."
+"Brewing is the production of beer by steeping barley in water and fermenting the resulting sweet liquid with yeast." The yeast contains bacteria that turn the starches into alchol. Natural sugars are starchy as well, for example honey can be mead or sweeten an IPA. 
 
 Recipes
 ------------
