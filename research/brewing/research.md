@@ -3,13 +3,15 @@ Brewing
 
 "Brewing is the production of beer by steeping barley in water and fermenting the resulting sweet liquid with yeast." The yeast contains bacteria that turn the starches into alchol. Natural sugars are starchy as well, for example honey can be mead or sweeten an IPA. 
 
-Recipes
+Learn
 ------------
 
     $ sudo apt-get install brewtarget
     # EDX course: beer the science of brewing.
     # Brewing videos - https://www.youtube.com/user/basicbrewing
     # Brewkits - https://www.nytimes.com/wirecutter/reviews/best-beer-brewing-kit/
+    # Software - https://www.brewblox.com/
+    # Docker - https://hub.docker.com/u/brewblox
 
 References
 -----------------
