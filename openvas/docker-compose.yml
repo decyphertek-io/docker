@@ -1,6 +1,7 @@
 # https://immauss.github.io/openvas/
 # docker volume create openvas
 # docker run --detach --publish 8080:9392 -e PASSWORD="Your admin password here" --volume openvas:/data --name openvas immauss/openvas
+# Need to troubleshoot docker-compose , doesnt work right. 
 
 services:
   openvas:
