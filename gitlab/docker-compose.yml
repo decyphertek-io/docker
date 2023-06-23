@@ -1,5 +1,6 @@
 # https://docs.gitlab.com/ee/install/docker.html
 # Modified to not have a domain name and removed port 22, conflicted with Linux. 
+# Testing in progress.......
 
 services:
   web:
