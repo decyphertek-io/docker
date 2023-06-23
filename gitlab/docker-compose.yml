@@ -1,4 +1,6 @@
 # https://docs.gitlab.com/ee/install/docker.html
+# Can I set as localhost?
+# $GITLAB_HOME is not set? 
 
 services:
   web:
