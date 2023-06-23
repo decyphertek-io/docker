@@ -21,6 +21,7 @@ Install
     $ wget -qO - https://www.brewblox.com/install | bash
     $ brewblox-ctl add-spark --simulation
     $ brewblox-ctl up
+    $ brewblox-ctl update
 
 References
 -----------------
