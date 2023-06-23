@@ -3,14 +3,20 @@
 # admin login user: root pass: docker exec -it gitlab-gitlab-1 grep 'Password:' /etc/gitlab/initial_root_password 
 
 services:
-  gitlab:
-    image: 'gitlab/gitlab-ce'
+  web:
+    image: 'gitlab/gitlab-ee:latest'
     restart: always
     hostname: 'localhost'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
     ports:
       - '80:80'
+      - '2224:22'
     volumes:
       - '~/.docker/gitlab/config:/etc/gitlab'
       - '~/.docker/gitlab/logs:/var/log/gitlab'
       - '~/.docker/gitlab/data:/var/opt/gitlab'
     shm_size: '256m'
+  
