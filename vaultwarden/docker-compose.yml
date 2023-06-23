@@ -1,6 +1,8 @@
 # https://hub.docker.com/r/vaultwarden/server
 # https://github.com/dani-garcia/vaultwarden
 # docker run -d --name vaultwarden -v /vw-data/:/data/ -p 80:80 vaultwarden/server:latest
+# Error when creating account - Requires https to use webvault?
+# Troubleshooting. 
 
 services:
   vaultwarden:
