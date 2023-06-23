@@ -4,7 +4,7 @@
 
 services:
   openvas:
-    image: openvas immauss/openvas
+    image: immauss/openvas
     container_name: openvas
     ports:
       - '8080:9392'
