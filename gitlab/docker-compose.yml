@@ -1,21 +1,16 @@
 # https://docs.gitlab.com/ee/install/docker.html
-# Modified to not have a domain name and removed port 22, conflicted with Linux. 
-# Testing in progress.......
+# Modified to work locally.
+# Testing in progress....
 
 services:
-  web:
+  gitlab:
     image: 'gitlab/gitlab-ee:latest'
     restart: always
     hostname: 'localhost'
-    #environment:
-      #GITLAB_OMNIBUS_CONFIG: |
-        #external_url 'https://gitlab.example.com'
-        # Add any other gitlab.rb configuration here, each on its own line
     ports:
       - '80:80'
-      - '443:443'
     volumes:
-      - '~/config:/etc/gitlab'
-      - '~/logs:/var/log/gitlab'
-      - '~/data:/var/opt/gitlab'
+      - '~/.gitlab/config:/etc/gitlab'
+      - '~/.gitlab/logs:/var/log/gitlab'
+      - '~/.gitlab/data:/var/opt/gitlab'
     shm_size: '256m'
