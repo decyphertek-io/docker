@@ -71,7 +71,9 @@ Manage Docker
     # Enter docker bash shell
     $ docker exec -it ContainerName bash
     # Execute docker command from terminal
-    $ docker exec -it ContainerName Command
+    $ docker exec -it ContainerName 
+    # Make a custom Image
+    $ docker commit ContainerName NewName
 
 Docker Compose Commands
 -----------------------
