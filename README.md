@@ -9,13 +9,37 @@ Getting Started
 
     # Make sure Docker, Docker compose, and git is installed.
     $ git clone https://github.com/decyphertek-io/docker.git
-    $ cd docker
+    $ mv docker/ .docker/
+    $ cd .docker
     # Choose which server you want to launch. ( A few are not in docker-compose format, so have to run command manually) 
     $ cd ServerName
     # Docker compose has two commands depending on how you installed it. ( Plugin vs binary )
     $ docker-compose up -d 
     <OR>
     $ docker compose up -d 
+    $ docker exec -it nginx-reverse-proxy openssl req -x509 -nodes -days 1095 -newkey rsa:2048 -keyout /etc/ssl/private/self-signed-key.pem -out /etc/ssl/certs/self-signed-crt.pem -subj "/C=US/ST=Any/L=Anytown/O=decyphertek-io/OU=adminotaur/CN=decyphertek"
+    # Look at nginx /etc/nginx/conf.d/defualt.conf to set reverse proxy. 
+    server {
+        listen 443 ssl;
+        listen  [::]:443 ssl;
+        server_name localhost;
+        ssl_certificate      /etc/ssl/certs/self-signed-crt.pem;
+        ssl_certificate_key  /etc/ssl/private/self-signed-key.pem;
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+        ssl_protocols        TLSV1.1 TLSV1.2 TLSV1.3;
+        ssl_ciphers          HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers on;
+    location / {
+        proxy_pass http://172.23.0.1:8000;
+        proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection upgrade;
+        proxy_set_header Accept-Encoding gzip;
+        proxy_set_header X-Forwarded-Host $host:$server_port;
+        }
+    }
+
 
 Quick Install
 -------------

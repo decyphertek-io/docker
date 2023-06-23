@@ -1,0 +1,13 @@
+# https://immauss.github.io/openvas/
+# docker volume create openvas
+# docker run --detach --publish 8080:9392 -e PASSWORD="Your admin password here" --volume openvas:/data --name openvas immauss/openvas
+
+services:
+  openvas:
+    image: openvas immauss/openvas
+    container_name: openvas
+    ports:
+      - '8080:9392'
+    volumes:
+      - '~/.docker/openvas/data/:/data'
+    restart: unless-stopped
