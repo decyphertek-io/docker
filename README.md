@@ -39,6 +39,7 @@ Getting Started
         proxy_set_header X-Forwarded-Host $host:$server_port;
         }
     }
+    $ docker exec -it nginx-reverse-proxy nginx -s reload
 
 
 Quick Install
