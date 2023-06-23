@@ -17,6 +17,8 @@ Getting Started
     $ docker-compose up -d 
     <OR>
     $ docker compose up -d 
+    
+    # OPTIONAL: If you want a self signed nginx reverse proxy, add nginx to docker compose and then run the following commands
     $ docker exec -it nginx-reverse-proxy openssl req -x509 -nodes -days 1095 -newkey rsa:2048 -keyout /etc/ssl/private/self-signed-key.pem -out /etc/ssl/certs/self-signed-crt.pem -subj "/C=US/ST=Any/L=Anytown/O=decyphertek-io/OU=adminotaur/CN=decyphertek"
     # Look at nginx /etc/nginx/conf.d/defualt.conf to set reverse proxy. 
     server {
