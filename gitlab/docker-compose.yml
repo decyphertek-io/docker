@@ -1,6 +1,7 @@
 # https://docs.gitlab.com/ee/install/docker.html
 # Can I set as localhost?
 # $GITLAB_HOME is not set? 
+# listen tcp4 0.0.0.0:22: bind: address already in use ( This will conflict on Linux )
 
 services:
   web:
