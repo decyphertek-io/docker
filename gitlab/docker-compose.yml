@@ -1,6 +1,5 @@
 # https://docs.gitlab.com/ee/install/docker.html
 # Modified to work locally.
-# Testing in progress.... Long time to install & system freeze.
 
 services:
   gitlab:
