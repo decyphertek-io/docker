@@ -15,6 +15,13 @@ Learn
     # Brewblox - Simple, Modular , Scalable . https://www.brewblox.com/
     # Odoo - Ecommece: https://github.com/odoo/odoo
 
+Install
+-------
+
+    $ wget -qO - https://www.brewblox.com/install | bash
+    $ brewblox-ctl add-spark --simulation
+    $ brewblox-ctl up
+
 References
 -----------------
 
