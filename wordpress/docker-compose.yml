@@ -1,0 +1,27 @@
+# https://earthly.dev/blog/portainer-for-docker-container-management/
+# vim wordpress.env and set the variables.
+# docker-compose --env-file opencti.env up -d
+# <OR>
+# docker compose --env-file opencti.env up -d
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+       - db:/var/lib/mysql
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - 8880:80
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=${MYSQL_USER}
+      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+      - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+volumes:
+  db:
