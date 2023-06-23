@@ -1,6 +1,8 @@
 # https://docs.gitlab.com/ee/install/docker.html
 # Modified to work locally.
 # admin login user: root pass: docker exec -it Gitlab-Container-Name grep 'Password:' /etc/gitlab/initial_root_password 
+# Edit omnibus config if desired: docker exec -it gitlab vi /etc/gitlab/gitlab.rb
+# docker restart gitlab-Container-Name
 
 services:
   web:
