@@ -1,14 +1,13 @@
-# https://phoenixnap.com/kb/docker-portainer-install
-# docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+# https://earthly.dev/blog/portainer-for-docker-container-management/
 
 services:
   portainer:
-    image: portainer-ce:latest
-    container_name: portainer-ce
+    image: portainer/portainer-ce:latest
     ports:
-      - '8000:8000'
-      - '9443:9443'
+      - 9443:9443
     volumes:
+      - data:/data
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data portainer/portainer-ce:latest
-    restart: always
+    restart: unless-stopped
+volumes:
+  data:
