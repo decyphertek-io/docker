@@ -1,6 +1,6 @@
 # https://docs.gitlab.com/ee/install/docker.html
 # Modified to work locally.
-# admin login user: root pass: docker exec -it gitlab-gitlab-1 grep 'Password:' /etc/gitlab/initial_root_password 
+# admin login user: root pass: docker exec -it Gitlab-Container-Name grep 'Password:' /etc/gitlab/initial_root_password 
 
 services:
   web:
