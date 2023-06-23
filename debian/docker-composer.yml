@@ -1,0 +1,3 @@
+# https://www.server-world.info/en/note?os=Debian_12&p=docker&f=1
+$ docker pull debian
+$ docker run -it debian /bin/bash 
