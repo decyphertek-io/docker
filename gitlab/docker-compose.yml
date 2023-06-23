@@ -1,8 +1,8 @@
 # https://docs.gitlab.com/ee/install/docker.html
 # Modified to work locally.
 # admin login user: root pass: docker exec -it Gitlab-Container-Name grep 'Password:' /etc/gitlab/initial_root_password 
-# Edit omnibus config if desired: docker exec -it gitlab vi /etc/gitlab/gitlab.rb
-# docker restart gitlab-Container-Name
+# If you are using a Domain, enable mnibus. Edit omnibus config: docker exec -it gitlab-web-1 vi /etc/gitlab/gitlab.rb
+# docker restart gitlab-web-1
 
 services:
   web:
@@ -10,10 +10,10 @@ services:
     container_name: gitlab
     restart: always
     hostname: 'localhost'
-    environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://localhost:80'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    #environment:
+      #GITLAB_OMNIBUS_CONFIG: |
+        #external_url 'http://localhost:80'
+        #gitlab_rails['gitlab_shell_ssh_port'] = 2224
     ports:
       - '80:80'
       - '2224:22'
