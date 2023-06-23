@@ -1,4 +1,4 @@
-Reseearch
+Research
 =========
 
 OKD is the open sourced Openshift.
