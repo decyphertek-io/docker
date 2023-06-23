@@ -4,7 +4,7 @@
 
 services:
   gitlab:
-    image: 'gitlab/gitlab-ee:latest'
+    image: 'gitlab/gitlab-ce'
     restart: always
     hostname: 'localhost'
     ports:
