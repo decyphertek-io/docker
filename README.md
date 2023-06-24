@@ -110,6 +110,11 @@ Docker Compose Commands
     $ docker compose up 	    Create and start containers
     $ docker compose version 	Show the Docker Compose version information
 
+Optional: Compose Generator
+--------------------------
+
+    https://dev.to/marcauberer/compose-generator-deploy-your-app-in-seconds-21o6
+
 Optional: Nginx reverse proxy w/self signed cert.
 --------------------------------------------------
 
