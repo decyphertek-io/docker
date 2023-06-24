@@ -158,7 +158,7 @@ Optional: Whaler
     # Pull your base image 
     $ docker pull debian
     $ docker run -d --name debian -it debian /bin/bash
-    $ docker exec -it Debian bash
+    $ docker exec -it debian bash
     # run some commands or copy over a script to run.
     $ docker commit debian new-app:latest
     $ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock alpine/dfimage new-app:latest
