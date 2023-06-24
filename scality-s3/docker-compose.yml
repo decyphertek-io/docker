@@ -1,0 +1,19 @@
+# https://github.com/Tigrou59/Scality/blob/master/S3-Server/docker/docker-compose.yml
+
+services:
+  s3server:
+    image: scality/s3server:latest
+    container_name: s3server
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - s3data:/usr/src/app/localData
+      - s3metadata:/usr/src/app/localMetadata
+    environment:
+      - SCALITY_ACCESS_KEY_ID=newAccessKey
+      - SCALITY_SECRET_ACCESS_KEY=newSecretKey
+      - SSL="FALSE"
+volumes:
+  s3data:
+  s3metadata:
