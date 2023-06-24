@@ -1,0 +1,191 @@
+# https://github.com/overhangio/tutor/blob/master/tutor/templates/local/docker-compose.yml
+
+services:
+
+  # Set bind-mounted folder ownership
+  permissions:
+    image: {{ DOCKER_IMAGE_PERMISSIONS }}
+    restart: on-failure
+    entrypoint: []
+    command: ["sh", "/usr/local/bin/setowners.sh"]
+    environment:
+      OPENEDX_USER_ID: "1000"
+    volumes:
+      # Command script
+      - ../apps/permissions/setowners.sh:/usr/local/bin/setowners.sh:ro
+      # Bind-mounted volumes to set ownership
+      - ../../data/lms:/mounts/lms
+      - ../../data/cms:/mounts/cms
+      - ../../data/openedx-media:/mounts/openedx
+      {% if RUN_MONGODB %}- ../../data/mongodb:/mounts/mongodb{% endif %}
+      {% if RUN_MYSQL %}- ../../data/mysql:/mounts/mysql{% endif %}
+      {% if RUN_ELASTICSEARCH %}- ../../data/elasticsearch:/mounts/elasticsearch{% endif %}
+      {% if RUN_REDIS %}- ../../data/redis:/mounts/redis{% endif %}
+      {{ patch("local-docker-compose-permissions-volumes")|indent(6) }}
+
+  ############# External services
+
+  {% if RUN_MONGODB -%}
+  mongodb:
+    image: {{ DOCKER_IMAGE_MONGODB }}
+    # Use WiredTiger in all environments, just like at edx.org
+    command: mongod --nojournal --storageEngine wiredTiger
+    restart: unless-stopped
+    user: "999:999"
+    volumes:
+      - ../../data/mongodb:/data/db
+    depends_on:
+      - permissions
+  {%- endif %}
+
+  {% if RUN_MYSQL -%}
+  mysql:
+    image: {{ DOCKER_IMAGE_MYSQL }}
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    restart: unless-stopped
+    user: "999:999"
+    volumes:
+      - ../../data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "{{ MYSQL_ROOT_PASSWORD }}"
+  {%- endif %}
+
+  {% if RUN_ELASTICSEARCH -%}
+  elasticsearch:
+    image: {{ DOCKER_IMAGE_ELASTICSEARCH }}
+    environment:
+      - cluster.name=openedx
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms{{ ELASTICSEARCH_HEAP_SIZE }} -Xmx{{ ELASTICSEARCH_HEAP_SIZE }}"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    restart: unless-stopped
+    user: "1000:1000"
+    volumes:
+      - ../../data/elasticsearch:/usr/share/elasticsearch/data
+    depends_on:
+      - permissions
+  {%- endif %}
+
+  {% if RUN_REDIS -%}
+  redis:
+    image: {{ DOCKER_IMAGE_REDIS }}
+    working_dir: /openedx/redis/data
+    user: "1000:1000"
+    volumes:
+      - ../apps/redis/redis.conf:/openedx/redis/config/redis.conf:ro
+      - ../../data/redis:/openedx/redis/data
+    command: redis-server /openedx/redis/config/redis.conf
+    restart: unless-stopped
+    depends_on:
+      - permissions
+  {%- endif %}
+
+  {% if RUN_SMTP -%}
+  smtp:
+    image: {{ DOCKER_IMAGE_SMTP }}
+    restart: unless-stopped
+    user: "100:101"
+    environment:
+      HOSTNAME: "{{ LMS_HOST }}"
+  {%- endif %}
+
+  ############# LMS and CMS
+
+  lms:
+    image: {{ DOCKER_IMAGE_OPENEDX }}
+    environment:
+      SERVICE_VARIANT: lms
+      DJANGO_SETTINGS_MODULE: lms.envs.tutor.production
+      UWSGI_WORKERS: {{ OPENEDX_LMS_UWSGI_WORKERS }}
+    restart: unless-stopped
+    volumes:
+      - ../apps/openedx/settings/lms:/openedx/edx-platform/lms/envs/tutor:ro
+      - ../apps/openedx/settings/cms:/openedx/edx-platform/cms/envs/tutor:ro
+      - ../apps/openedx/config:/openedx/config:ro
+      - ../apps/openedx/uwsgi.ini:/openedx/edx-platform/uwsgi.ini:ro
+      - ../../data/lms:/openedx/data
+      - ../../data/openedx-media:/openedx/media
+      {%- for mount in iter_mounts(MOUNTS, "lms") %}
+      - {{ mount }}
+      {%- endfor %}
+    depends_on:
+      - permissions
+      {% if RUN_MYSQL %}- mysql{% endif %}
+      {% if RUN_ELASTICSEARCH %}- elasticsearch{% endif %}
+      {% if RUN_MONGODB %}- mongodb{% endif %}
+      {% if RUN_REDIS %}- redis{% endif %}
+      {% if RUN_SMTP %}- smtp{% endif %}
+      {{ patch("local-docker-compose-lms-dependencies")|indent(6) }}
+
+  cms:
+    image: {{ DOCKER_IMAGE_OPENEDX }}
+    environment:
+      SERVICE_VARIANT: cms
+      DJANGO_SETTINGS_MODULE: cms.envs.tutor.production
+      UWSGI_WORKERS: {{ OPENEDX_CMS_UWSGI_WORKERS }}
+    restart: unless-stopped
+    volumes:
+      - ../apps/openedx/settings/lms:/openedx/edx-platform/lms/envs/tutor:ro
+      - ../apps/openedx/settings/cms:/openedx/edx-platform/cms/envs/tutor:ro
+      - ../apps/openedx/config:/openedx/config:ro
+      - ../apps/openedx/uwsgi.ini:/openedx/edx-platform/uwsgi.ini:ro
+      - ../../data/cms:/openedx/data
+      - ../../data/openedx-media:/openedx/media
+      {%- for mount in iter_mounts(MOUNTS, "cms") %}
+      - {{ mount }}
+      {%- endfor %}
+    depends_on:
+      - permissions
+      - lms
+      {% if RUN_MYSQL %}- mysql{% endif %}
+      {% if RUN_ELASTICSEARCH %}- elasticsearch{% endif %}
+      {% if RUN_MONGODB %}- mongodb{% endif %}
+      {% if RUN_REDIS %}- redis{% endif %}
+      {% if RUN_SMTP %}- smtp{% endif %}
+      {{ patch("local-docker-compose-cms-dependencies")|indent(6) }}
+
+  ############# LMS and CMS workers
+
+  lms-worker:
+    image: {{ DOCKER_IMAGE_OPENEDX }}
+    environment:
+      SERVICE_VARIANT: lms
+      DJANGO_SETTINGS_MODULE: lms.envs.tutor.production
+    command: celery --app=lms.celery worker --loglevel=info --hostname=edx.lms.core.default.%%h --max-tasks-per-child=100 --exclude-queues=edx.cms.core.default
+    restart: unless-stopped
+    volumes:
+      - ../apps/openedx/settings/lms:/openedx/edx-platform/lms/envs/tutor:ro
+      - ../apps/openedx/settings/cms:/openedx/edx-platform/cms/envs/tutor:ro
+      - ../apps/openedx/config:/openedx/config:ro
+      - ../../data/lms:/openedx/data
+      - ../../data/openedx-media:/openedx/media
+      {%- for mount in iter_mounts(MOUNTS, "lms-worker") %}
+      - {{ mount }}
+      {%- endfor %}
+    depends_on:
+      - lms
+
+  cms-worker:
+    image: {{ DOCKER_IMAGE_OPENEDX }}
+    environment:
+      SERVICE_VARIANT: cms
+      DJANGO_SETTINGS_MODULE: cms.envs.tutor.production
+    command: celery --app=cms.celery worker --loglevel=info --hostname=edx.cms.core.default.%%h --max-tasks-per-child 100 --exclude-queues=edx.lms.core.default
+    restart: unless-stopped
+    volumes:
+      - ../apps/openedx/settings/lms:/openedx/edx-platform/lms/envs/tutor:ro
+      - ../apps/openedx/settings/cms:/openedx/edx-platform/cms/envs/tutor:ro
+      - ../apps/openedx/config:/openedx/config:ro
+      - ../../data/cms:/openedx/data
+      - ../../data/openedx-media:/openedx/media
+      {%- for mount in iter_mounts(MOUNTS, "cms-worker") %}
+      - {{ mount }}
+      {%- endfor %}
+    depends_on:
+      - cms
+
+  {{ patch("local-docker-compose-services")|indent(2) }}
