@@ -1,0 +1,45 @@
+# https://patch.codelathe.com/tonidocloud/live/scripts/fc/docker-compose.yml
+
+services:
+    filecloud.mongodb:
+        container_name: 'filecloud.mongodb'
+        image: mongo:4.4.18
+        environment:
+            - mongodb_data_container=/data/db
+        volumes:
+            - mongo_database:/data/db
+
+    filecloud.server:
+        container_name: 'filecloud.server'
+        image: filecloud/filecloudserver22.1:latest
+        depends_on:
+            - filecloud.mongodb
+            - filecloud.preview
+        volumes:
+            - cloud_data:/var/clouddata
+            - var_html:/var/www/html
+        links:
+            - filecloud.mongodb
+        ports:
+            - "80:80"
+            - "443:443"
+
+    filecloud.preview:
+        container_name: 'filecloud.preview'
+        image: filecloud/filecloudpreview22.1:latest
+        volumes:
+            - cloud_data:/var/clouddata
+            - var_html:/var/www/html
+
+    filecloud.solr:
+        container_name: 'filecloud.solr'
+        image: filecloud/filecloudsolr21.3:latest
+        volumes:
+            - solr_data:/var/solr
+            - var_html:/var/www/html
+
+volumes:
+    mongo_database:
+    cloud_data:
+    solr_data:
+    var_html:
