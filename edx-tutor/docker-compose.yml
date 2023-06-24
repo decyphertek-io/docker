@@ -1,4 +1,5 @@
 # https://github.com/overhangio/tutor/blob/master/tutor/templates/local/docker-compose.yml
+# This is not formatted correctly. Need to deconstruct. 
 
 services:
 
@@ -17,15 +18,15 @@ services:
       - ../../data/lms:/mounts/lms
       - ../../data/cms:/mounts/cms
       - ../../data/openedx-media:/mounts/openedx
-      {% if RUN_MONGODB %}- ../../data/mongodb:/mounts/mongodb{% endif %}
-      {% if RUN_MYSQL %}- ../../data/mysql:/mounts/mysql{% endif %}
-      {% if RUN_ELASTICSEARCH %}- ../../data/elasticsearch:/mounts/elasticsearch{% endif %}
-      {% if RUN_REDIS %}- ../../data/redis:/mounts/redis{% endif %}
-      {{ patch("local-docker-compose-permissions-volumes")|indent(6) }}
+      - {% if RUN_MONGODB %}- ../../data/mongodb:/mounts/mongodb{% endif %}
+      - {% if RUN_MYSQL %}- ../../data/mysql:/mounts/mysql{% endif %}
+      - {% if RUN_ELASTICSEARCH %}- ../../data/elasticsearch:/mounts/elasticsearch{% endif %}
+      - {% if RUN_REDIS %}- ../../data/redis:/mounts/redis{% endif %}
+      - {{ patch("local-docker-compose-permissions-volumes")|indent(6) }}
 
   ############# External services
 
-  {% if RUN_MONGODB -%}
+  #{% if RUN_MONGODB -%}
   mongodb:
     image: {{ DOCKER_IMAGE_MONGODB }}
     # Use WiredTiger in all environments, just like at edx.org
@@ -36,9 +37,9 @@ services:
       - ../../data/mongodb:/data/db
     depends_on:
       - permissions
-  {%- endif %}
+  #{%- endif %}
 
-  {% if RUN_MYSQL -%}
+  #{% if RUN_MYSQL -%}
   mysql:
     image: {{ DOCKER_IMAGE_MYSQL }}
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
@@ -48,9 +49,9 @@ services:
       - ../../data/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "{{ MYSQL_ROOT_PASSWORD }}"
-  {%- endif %}
+  #{%- endif %}
 
-  {% if RUN_ELASTICSEARCH -%}
+  #{% if RUN_ELASTICSEARCH -%}
   elasticsearch:
     image: {{ DOCKER_IMAGE_ELASTICSEARCH }}
     environment:
@@ -68,9 +69,9 @@ services:
       - ../../data/elasticsearch:/usr/share/elasticsearch/data
     depends_on:
       - permissions
-  {%- endif %}
+  #{%- endif %}
 
-  {% if RUN_REDIS -%}
+  #{% if RUN_REDIS -%}
   redis:
     image: {{ DOCKER_IMAGE_REDIS }}
     working_dir: /openedx/redis/data
@@ -82,16 +83,16 @@ services:
     restart: unless-stopped
     depends_on:
       - permissions
-  {%- endif %}
+  #{%- endif %}
 
-  {% if RUN_SMTP -%}
+  #{% if RUN_SMTP -%}
   smtp:
     image: {{ DOCKER_IMAGE_SMTP }}
     restart: unless-stopped
     user: "100:101"
     environment:
       HOSTNAME: "{{ LMS_HOST }}"
-  {%- endif %}
+  #{%- endif %}
 
   ############# LMS and CMS
 
@@ -109,17 +110,17 @@ services:
       - ../apps/openedx/uwsgi.ini:/openedx/edx-platform/uwsgi.ini:ro
       - ../../data/lms:/openedx/data
       - ../../data/openedx-media:/openedx/media
-      {%- for mount in iter_mounts(MOUNTS, "lms") %}
+      #{%- for mount in iter_mounts(MOUNTS, "lms") %}
       - {{ mount }}
-      {%- endfor %}
+      #{%- endfor %}
     depends_on:
       - permissions
-      {% if RUN_MYSQL %}- mysql{% endif %}
-      {% if RUN_ELASTICSEARCH %}- elasticsearch{% endif %}
-      {% if RUN_MONGODB %}- mongodb{% endif %}
-      {% if RUN_REDIS %}- redis{% endif %}
-      {% if RUN_SMTP %}- smtp{% endif %}
-      {{ patch("local-docker-compose-lms-dependencies")|indent(6) }}
+      - {% if RUN_MYSQL %}- mysql{% endif %}
+      - {% if RUN_ELASTICSEARCH %}- elasticsearch{% endif %}
+      - {% if RUN_MONGODB %}- mongodb{% endif %}
+      - {% if RUN_REDIS %}- redis{% endif %}
+      - {% if RUN_SMTP %}- smtp{% endif %}
+      - {{ patch("local-docker-compose-lms-dependencies")|indent(6) }}
 
   cms:
     image: {{ DOCKER_IMAGE_OPENEDX }}
@@ -141,7 +142,22 @@ services:
     depends_on:
       - permissions
       - lms
-      {% if RUN_MYSQL %}- mysql{% endif %}
+      services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - VERSION=docker
+      - PLEX_CLAIM= #optional
+    volumes:
+      - /path/to/library:/config
+      - /path/to/tvseries:/tv
+      - /path/to/movies:/movies
+    restart: unless-stopped{% if RUN_MYSQL %}- mysql{% endif %}
       {% if RUN_ELASTICSEARCH %}- elasticsearch{% endif %}
       {% if RUN_MONGODB %}- mongodb{% endif %}
       {% if RUN_REDIS %}- redis{% endif %}
