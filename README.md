@@ -147,6 +147,17 @@ Optional: ghcr.io
     $ docker push  ghcr.io/USERNAME/CONTAINERNAME:latest
     # This should publish under your Github profile under packages. 
 
+Optional: Whaler
+----------------
+
+    # Pull your base image 
+    $ docker pull debian
+    $ docker run -d --name debian -it debian /bin/bash
+    $ docker exec -it Debian bash
+    # run some commands or copy over a script to run.
+    $ docker commit debian new-app:latest
+    $ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock alpine/dfimage new-app:latest
+
 Optional: UFW & Docker
 ----------------------
 
