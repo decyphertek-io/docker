@@ -18,32 +18,6 @@ Getting Started
     <OR>
     $ docker compose up -d 
 
-    # OPTIONAL: If you want a self signed nginx reverse proxy, add nginx to docker compose and then run the following commands
-    $ docker exec -it nginx-reverse-proxy openssl req -x509 -nodes -days 1095 -newkey rsa:2048 -keyout /etc/ssl/private/self-signed-key.pem -out /etc/ssl/certs/self-signed-crt.pem -subj "/C=US/ST=Any/L=Anytown/O=decyphertek-io/OU=adminotaur/CN=decyphertek"
-    # Look at nginx /etc/nginx/conf.d/defualt.conf to set reverse proxy. ( The proxy pass should reference a bridge or gateway in docker. )
-    server {
-        listen 443 ssl;
-        listen  [::]:443 ssl;
-        server_name localhost;
-        ssl_certificate      /etc/ssl/certs/self-signed-crt.pem;
-        ssl_certificate_key  /etc/ssl/private/self-signed-key.pem;
-        ssl_session_cache    shared:SSL:1m;
-        ssl_session_timeout  5m;
-        ssl_protocols        TLSV1.1 TLSV1.2 TLSV1.3;
-        ssl_ciphers          HIGH:!aNULL:!MD5;
-        ssl_prefer_server_ciphers on;
-    location / {
-        proxy_pass http://172.23.0.1:8000;
-        proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection upgrade;
-        proxy_set_header Accept-Encoding gzip;
-        proxy_set_header X-Forwarded-Host $host:$server_port;
-        }
-    }
-    $ docker exec -it nginx-reverse-proxy nginx -s reload
-
-
 Quick Install
 -------------
 
@@ -109,8 +83,6 @@ Docker Compose Commands
     $ docker-compose up -d
     # Pass varibales: docker-compose.yml variable ${EXAMPLE} > example.env variable EXAMPLE=changeme
     $ docker-compose --env-file example.env up -d
-    # Docker compose build
-    $ docker-compose up -d --build
     # Docker Plugin uses docker compose instead of docker-compose
     $ docker compose build 	    Build or rebuild services
     $ docker compose convert 	Converts the compose file to platform’s canonical format
@@ -137,6 +109,43 @@ Docker Compose Commands
     $ docker compose unpause 	Unpause services
     $ docker compose up 	    Create and start containers
     $ docker compose version 	Show the Docker Compose version information
+
+Optional: Nginx reverse proxy w/self signed cert.
+--------------------------------------------------
+
+    # If you want a self signed nginx reverse proxy, add nginx to docker compose and then run the following commands
+    $ docker exec -it nginx-reverse-proxy openssl req -x509 -nodes -days 1095 -newkey rsa:2048 -keyout /etc/ssl/private/self-signed-key.pem -out /etc/ssl/certs/self-signed-crt.pem -subj "/C=US/ST=Any/L=Anytown/O=decyphertek-io/OU=adminotaur/CN=decyphertek"
+    # Look at nginx /etc/nginx/conf.d/defualt.conf to set reverse proxy. ( The proxy pass should reference a bridge or gateway in docker. )
+    server {
+        listen 443 ssl;
+        listen  [::]:443 ssl;
+        server_name localhost;
+        ssl_certificate      /etc/ssl/certs/self-signed-crt.pem;
+        ssl_certificate_key  /etc/ssl/private/self-signed-key.pem;
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+        ssl_protocols        TLSV1.1 TLSV1.2 TLSV1.3;
+        ssl_ciphers          HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers on;
+    location / {
+        proxy_pass http://172.23.0.1:8000;
+        proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection upgrade;
+        proxy_set_header Accept-Encoding gzip;
+        proxy_set_header X-Forwarded-Host $host:$server_port;
+        }
+    }
+    $ docker exec -it nginx-reverse-proxy nginx -s reload
+
+Optional: ghcr.io
+------------------
+
+    # Make a github access key, dockerfile, and build
+    $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
+    $ docker build . -t ghcr.io/USERNAME/CONTAINERNAME:latest
+    $ docker push  ghcr.io/USERNAME/CONTAINERNAME:latest
+    # This should publish under your Github profile under packages. 
 
 Optional: UFW & Docker
 ----------------------
@@ -230,4 +239,5 @@ References
     https://docs.docker.com/engine/install/ubuntu/
     https://yacht.sh/docs/Installation/Getting_Started
     https://www.howtogeek.com/devops/how-to-use-docker-with-a-ufw-firewall/
+    https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
 
