@@ -1,6 +1,7 @@
 # git clone https://github.com/stackstorm/st2-docker
 # cd st2-docker
 # docker-compose up -d
+# Doesnt work , need to troubelshoot. 
 
 services:
   st2web:
