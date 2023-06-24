@@ -1,0 +1,2 @@
+# https://www.aquasec.com/products/trivy/
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.42.1 image python:3.4-alpine
