@@ -1,1 +1,2 @@
 # https://www.geeksforgeeks.org/flask-tutorial/
+# https://medium.com/geekculture/how-to-dockerize-your-flask-application-2d0487ecefb8
