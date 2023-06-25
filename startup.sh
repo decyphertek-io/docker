@@ -12,10 +12,7 @@ echo """
 echo "Welcome to Decyphertek - Decoding Technology."  
 
 # Choose your docker compose server. 
-echo """
-* portainer * cyberchef * freshrss 
-* doku-wiki * twake * chatpad-chatgpt
-""" 
+ls
 echo "Which docker compose would you like to run?"
 read DOCKER_CHOICE
 # Depending on the choice will run a docker-compose.yml for the chosen server.  
