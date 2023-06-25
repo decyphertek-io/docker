@@ -1,5 +1,12 @@
 # ASCII art header 
-cat decyphertek-logo.txt
+echo """ 
+ ____                        _               _       _      _       
+|  _ \  ___  ___ _   _ _ __ | |__   ___ _ __| |_ ___| | __ (_) ___  
+| | | |/ _ \/ __| | | | '_ \| '_ \ / _ \ '__| __/ _ \ |/ / | |/ _ \ 
+| |_| |  __/ (__| |_| | |_) | | | |  __/ |  | ||  __/   < _| | (_) |
+|____/ \___|\___|\__, | .__/|_| |_|\___|_|   \__\___|_|\_(_)_|\___/ 
+                 |___/|_|                                           
+"""
 
 # Instructions
 echo "Welcome to Decyphertek - Decoding Technology."  
@@ -21,4 +28,11 @@ docker-compose up -d
 echo " $DOCKER_CHOICE is now ready!!!"
 docker ps | grep $DOCKER_CHOICE
 echo " $DOCKER_CHOICE is now ready!!!"
-cat decyphertek-logo.txt
+echo """ 
+ ____                        _               _       _      _       
+|  _ \  ___  ___ _   _ _ __ | |__   ___ _ __| |_ ___| | __ (_) ___  
+| | | |/ _ \/ __| | | | '_ \| '_ \ / _ \ '__| __/ _ \ |/ / | |/ _ \ 
+| |_| |  __/ (__| |_| | |_) | | | |  __/ |  | ||  __/   < _| | (_) |
+|____/ \___|\___|\__, | .__/|_| |_|\___|_|   \__\___|_|\_(_)_|\___/ 
+                 |___/|_|                                           
+"""
