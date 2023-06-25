@@ -13,6 +13,7 @@ Getting Started
     $ cd .docker
     # Optional Interactvie Script: 
     $ bash startup.sh
+    
     # Choose which server you want to launch. ( A few are not in docker-compose format, so have to run command manually) 
     $ cd ServerName
     # Docker compose has two commands depending on how you installed it. ( Plugin vs binary )
