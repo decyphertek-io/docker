@@ -7,7 +7,7 @@ Install
 -------
 
     # Optional: If using an immutable system and no python, then:
-    # Warning: Freezes on immutable OS if not installed in root, unable to install in root as of now. 
+    # Warning: Freezes on immutable OS if not installed in root. Work in Progress....
     $ wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
     $ bash Anaconda3-2023.03-1-Linux-x86_64.sh
     # Replace <PATH_TO_CONDA> with the path to your conda install
@@ -15,7 +15,7 @@ Install
     $ conda init
     $ conda config --set auto_activate_base True
     $ conda install pip
-    
+
     # Autogpt - clone repo.
     $ git clone -b stable https://github.com/Significant-Gravitas/Auto-GPT.git
     $ mv Auto-GPT/ .Auto-GPT/ 
