@@ -1,5 +1,4 @@
-# https://dependencytrack.org/docker-compose.yml
-
+# https://github.com/DependencyTrack/dependency-track/blob/master/src/main/docker/docker-compose.yml
 
 #####################################################
 # This Docker Compose file contains two services
@@ -127,3 +126,4 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+
