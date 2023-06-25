@@ -1,1 +1,10 @@
-# https://prinspeter.medium.com/how-to-use-autogpt-using-docker-a-step-by-step-guide-34ad33957de9
+# https://github.com/Significant-Gravitas/Auto-GPT/blob/master/docker-compose.yml
+
+services:
+  auto-gpt:
+    build: ./
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    profiles: ["exclude-from-up"]
