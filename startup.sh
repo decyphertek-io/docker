@@ -16,7 +16,7 @@ echo """
 * portainer * cyberchef * freshrss 
 * dockuwiki * twake * chatpad
 """ 
-echo " Which docker compose would you like to run?"
+echo "Which docker compose would you like to run?"
 read DOCKER_CHOICE
 # Depending on the choice will run a docker-compose.yml for the chosen server.  
 echo "We are launching $DOCKER_CHOICE, please be patient."
