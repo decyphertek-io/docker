@@ -1,0 +1,2 @@
+# https://github.com/ChimeraOS/chimeraos/pkgs/container/chimeraos
+docker pull ghcr.io/chimeraos/chimeraos:master
