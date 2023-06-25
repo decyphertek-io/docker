@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # ASCII art header 
 echo """ 
  ____                        _               _       _      _       
