@@ -10,9 +10,6 @@ echo """
 
 # Instructions
 echo "Welcome to Decyphertek - Decoding Technology."  
-echo "ArcherySec is an Open Source Vulnerability scanner dashboard that integrates many popular Open Source Scanning tools including, Openvas, owasp zap , etc."
-echo "This startup script will ask a few questions of you and then run docker compose based on those choosen variables"  
-echo "Once the script is done you will be able to access ArcherySec via https://ip-of-server "
 
 # Choose your docker compose server. 
 echo """
