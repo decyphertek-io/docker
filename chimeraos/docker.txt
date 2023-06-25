@@ -1,2 +1,3 @@
 # https://github.com/ChimeraOS/chimeraos/pkgs/container/chimeraos
+# XRDP install > docker commit
 docker pull ghcr.io/chimeraos/chimeraos:master
