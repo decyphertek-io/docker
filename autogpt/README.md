@@ -12,6 +12,7 @@ Install
     # Replace <PATH_TO_CONDA> with the path to your conda install
     $ source <PATH_TO_CONDA>/bin/activate
     $ conda init
+    $ conda config --set auto_activate_base True
     $ conda install pip
     $ git clone -b stable https://github.com/Significant-Gravitas/Auto-GPT.git
     $ mv Auto-GPT/ .Auto-GPT/ 
