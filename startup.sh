@@ -14,7 +14,7 @@ echo "Welcome to Decyphertek - Decoding Technology."
 # Choose your docker compose server. 
 echo """
 * portainer * cyberchef * freshrss 
-* dockuwiki * twake * chatpad
+* doku-wiki * twake * chatpad-chatgpt
 """ 
 echo "Which docker compose would you like to run?"
 read DOCKER_CHOICE
