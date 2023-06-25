@@ -22,7 +22,6 @@ read DOCKER_CHOICE
 echo "We are launching $DOCKER_CHOICE, please be patient."
 cd $DOCKER_CHOICE
 docker-compose up -d 
-echo " $DOCKER_CHOICE is now ready!!!"
 docker ps | grep $DOCKER_CHOICE
 echo " $DOCKER_CHOICE is now ready!!!"
 echo """ 
