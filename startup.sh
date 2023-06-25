@@ -17,7 +17,7 @@ do
     echo "Welcome to Decyphertek - Decoding Technology."  
     echo "---------------------------------------------"
     # Choose your docker compose server. 
-    ls
+    cd ~/.docker && ls
     echo "----------------------------------------------"
     echo "Which docker compose would you like to run?"
     read DOCKER_CHOICE
