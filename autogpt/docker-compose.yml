@@ -1,14 +1,14 @@
 # https://github.com/Significant-Gravitas/Auto-GPT/blob/master/docker-compose.yml
 # git clone https://github.com/Significant-Gravitas/Auto-GPT.git
 # cd Auto-GPT
-# cp .env.template .autogpt.env
+# cp .env.template .env
 # docker-compose up -d
 
 services:
   auto-gpt:
     build: ./
     env_file:
-      - .autogpt.env
+      - .env
     volumes:
       - ./:/app
     profiles: ["exclude-from-up"]
