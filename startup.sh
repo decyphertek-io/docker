@@ -10,9 +10,10 @@ echo """
 
 # Instructions
 echo "Welcome to Decyphertek - Decoding Technology."  
-
+echo "---------------------------------------------"
 # Choose your docker compose server. 
 ls
+echo "----------------------------------------------"
 echo "Which docker compose would you like to run?"
 read DOCKER_CHOICE
 # Depending on the choice will run a docker-compose.yml for the chosen server.  
