@@ -1,4 +1,5 @@
 # https://github.com/robincher/docker-compose-ghost-quickstart/blob/master/docker-compose.yml
+# Takes a while to spin up......
 
 services:
   nginx:
