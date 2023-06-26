@@ -156,6 +156,7 @@ Optional: ghcr.io
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
     # Make sure you have a dockerfile, see Whaler or build from scratch. 
     # Docker manifest v2 - https://docs.docker.com/registry/spec/manifest-v2-2/
+    # Dockerfile reference - https://docs.docker.com/engine/reference/builder/
     $ docker build . -t ghcr.io/USERNAME/CONTAINERNAME:latest
     $ docker push  ghcr.io/USERNAME/CONTAINERNAME:latest
     # This should publish under your Github profile under packages. 
