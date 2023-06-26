@@ -155,6 +155,7 @@ Optional: ghcr.io
     # Github required permisisons: https://github.com/settings/tokens/new?scopes=write:packages
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
     # Make sure you have a dockerfile, see Whaler or build from scratch. 
+    # Fails to build from whaler? 
     $ docker build . -t ghcr.io/USERNAME/CONTAINERNAME:latest
     $ docker push  ghcr.io/USERNAME/CONTAINERNAME:latest
     # This should publish under your Github profile under packages. 
