@@ -152,12 +152,7 @@ Optional: ghcr.io
 
     # Make a github access token, dockerfile, and build
     # Github > Settings > Developer Settings > personal access tokens > fined-grain tokens > Generate new token.
-    # From Github:
-    # (I dont see any permisison options for container images???)
-    Select the read:packages scope to download container images and read their metadata.
-    Select the write:packages scope to download and upload container images and read and write their metadata.
-    Select the delete:packages scope to delete container images.
-
+    # Github required permisisons: https://github.com/settings/tokens/new?scopes=write:packages
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
     # Make sure you have a dockerfile, see Whaler or build from scratch. 
     $ docker build . -t ghcr.io/USERNAME/CONTAINERNAME:latest
