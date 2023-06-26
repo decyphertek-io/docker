@@ -116,7 +116,8 @@ Docker Compose Commands
 Optional: Compose Generator
 --------------------------
 
-    https://dev.to/marcauberer/compose-generator-deploy-your-app-in-seconds-21o6
+    # https://dev.to/marcauberer/compose-generator-deploy-your-app-in-seconds-21o6
+    $ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/cg/out chillibits/compose-generator
 
 Optional: Nginx reverse proxy w/self signed cert.
 --------------------------------------------------
