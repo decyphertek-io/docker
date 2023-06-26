@@ -154,15 +154,9 @@ Optional: ghcr.io
     # Github > Settings > Developer Settings > personal access tokens > fined-grain tokens > Generate new token.
     # From Github:
 
-    Create a new personal access token (classic) with the appropriate scopes for the tasks you want to accomplish. If your organization requires SSO, you must enable SSO for your new token.
-
-    Note: By default, when you select the write:packages scope for your personal access token (classic) in the user interface, the repo scope will also be selected. The repo scope offers unnecessary and broad access, which we recommend you avoid using for GitHub Actions workflows in particular. For more information, see "Security hardening for GitHub Actions." As a workaround, you can select just the write:packages scope for your personal access token (classic) in the user interface with this url: https://github.com/settings/tokens/new?scopes=write:packages.
-
     Select the read:packages scope to download container images and read their metadata.
     Select the write:packages scope to download and upload container images and read and write their metadata.
     Select the delete:packages scope to delete container images.
-
-    For more information, see "Managing your personal access tokens."
 
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
     # Make sure you have a dockerfile, see Whaler or build from scratch. 
