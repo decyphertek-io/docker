@@ -150,7 +150,8 @@ Optional: Nginx reverse proxy w/self signed cert.
 Optional: ghcr.io
 ------------------
 
-    # Make a github access key, dockerfile, and build
+    # Make a github access token, dockerfile, and build
+    # Github > Settings > Developer Settings > personal access tokens > fined-grain tokens > Generate new token.
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
     $ docker build . -t ghcr.io/USERNAME/CONTAINERNAME:latest
     $ docker push  ghcr.io/USERNAME/CONTAINERNAME:latest
