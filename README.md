@@ -166,6 +166,8 @@ Optional: Whaler
     # run some commands or copy over a script to run.
     $ docker commit debian new-app:latest
     $ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock alpine/dfimage autogpt > ~/.docker/servername/dockerfile
+    # Clean up to only incldue dockerfile info. 
+    $ vim ~/.docker/servername/dockerfile
     # Should be able to push to ghcr as mentioned above. 
 
 
