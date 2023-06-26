@@ -151,7 +151,7 @@ Optional: ghcr.io
 ------------------
 
     # Make a github access token, dockerfile, and build
-    # Github > Settings > Developer Settings > personal access tokens > fined-grain tokens > Generate new token.
+    # Github > Settings > Developer Settings > personal access tokens > tokens > Generate new token.
     # Github required permisisons: https://github.com/settings/tokens/new?scopes=write:packages
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
     # Make sure you have a dockerfile, see Whaler or build from scratch. 
