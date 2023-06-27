@@ -1,0 +1,70 @@
+# https://github.com/TransformerOptimus/SuperAGI/blob/main/docker-compose.yaml
+# 1. Download the repo using git clone https://github.com/TransformerOptimus/SuperAGI.git in your terminal or directly from github page in zip format.
+# 2. Navigate to the directory using cd SuperAGI and create a copy of config_template.yaml, naming it config.yaml (take note of the file extension .yaml, not .yml).
+# 3. Enter your unique OpenAI API Key, Google key, Custom search engine ID without any quotes or spaces in config.yaml file. Follow the links below to get your keys:
+
+services:
+  backend:
+    volumes:
+      - "./:/app"
+    build: .
+    depends_on:
+      - super__redis
+      - super__postgres
+    networks:
+      - super_network
+  celery:
+    volumes:
+      - "./:/app"
+      - "${EXTERNAL_RESOURCE_DIR:-./workspace}:/app/ext"
+    build:
+      context: .
+      dockerfile: DockerfileCelery
+    depends_on:
+      - super__redis
+      - super__postgres
+    networks:
+      - super_network
+  gui:
+    build: ./gui
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=/api
+    networks:
+      - super_network
+#    volumes:
+#      - ./gui:/app
+#      - /app/node_modules/
+#      - /app/.next/
+  super__redis:
+    image: "docker.io/library/redis:latest"
+    networks:
+      - super_network
+  super__postgres:
+    image: "docker.io/library/postgres:latest"
+    environment:
+      - POSTGRES_USER=superagi
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=super_agi_main
+    volumes:
+      - superagi_postgres_data:/var/lib/postgresql/data/
+    networks:
+      - super_network
+  
+  proxy:
+    image: nginx:stable-alpine
+    ports:
+      - "3000:80"
+    networks:
+      - super_network
+    depends_on:
+      - backend
+      - gui
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+
+networks:
+  super_network:
+    driver: bridge
+volumes:
+  superagi_postgres_data:
