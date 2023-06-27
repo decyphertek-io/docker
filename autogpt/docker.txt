@@ -1,4 +1,5 @@
 # https://github.com/users/decyphertek-io/packages/container/package/autogpt
+# The exisitng autogpt github is complicated to build, I made it easier. 
 $ docker run -d --name autogpt -it ghcr.io/decyphertek-io/autogpt:latest /bin/bash
 $ docker exec -i autogpt bash
 $ cd Auto-GPT
