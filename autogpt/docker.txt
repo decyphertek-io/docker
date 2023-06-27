@@ -1,0 +1,12 @@
+# https://github.com/users/decyphertek-io/packages/container/package/autogpt
+$ docker run -d --name autogpt -it ghcr.io/decyphertek-io/autogpt:latest /bin/bash
+$ docker exec -i autogpt bash
+$ cd Auto-GPT
+$ nano .env
+# add your openapi key, save.
+# to Run openai interactively or continuously.
+$ python3 -m autogpt 
+# Optional: Runs nonstop to solve the problem. 
+$ python3 -m autogpt --continuous 
+
+
