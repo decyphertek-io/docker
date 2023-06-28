@@ -1,0 +1,3 @@
+# https://hub.docker.com/r/apache/airflow
+# https://github.com/apache/airflow
+docker pull apache/airflow
