@@ -1,0 +1,21 @@
+# https://github.com/comtihon/tabler/blob/master/docker-compose.yml
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=reservatron
+      - POSTGRES_USER=reservatron
+      - POSTGRES_DB=reservatron
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  admin:
+    image: tabler/admin
+    ports:
+      - "8081:8080"
+    links:
+      - postgres
+    environment:
+      - POSTGRES_HOST=postgres
