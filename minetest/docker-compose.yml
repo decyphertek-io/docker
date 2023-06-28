@@ -1,0 +1,14 @@
+# https://github.com/minetest/minetest#docker
+# Transposed to docker-compose, untested. 
+
+services:
+  minetest:
+    container_name: minetest
+    image: registry.gitlab.com/minetest/minetest/server:latest
+    restart: unless-stopped
+    #ports:
+      #- "80:80"
+      #- "443:443"
+    volumes:
+      - /home/minetest/data/:/var/lib/minetest/
+      - /home/minetest/conf/:/etc/minetest/
