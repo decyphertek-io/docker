@@ -1,10 +1,12 @@
 variant: flatcar 
 version: 1.0.0
+
 storage:
   files:
    - path: /etc/hostname  
      contents:
        inline: decyphertek  
+
 systemd:
   units:
     - name: docker.service
