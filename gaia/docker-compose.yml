@@ -1,0 +1,19 @@
+# https://github.com/gaia-app/gaia/blob/main/docker-compose.yml
+# May need data from github repo.
+
+services:
+    gaia:
+        build: .
+        image: gaia
+        ports:
+            - '8080:8080'
+        environment:
+            - "GAIA_MONGODB_URI=mongodb://mongo/gaia"
+            - "GAIA_EXTERNAL_URL=http://172.17.0.1:8080"
+            - "GAIA_RUNNER_API_PASSWORD=123456"
+
+    mongo:
+        build:
+            context: .
+            dockerfile: ./Dockerfile-db
+        image: gaia-db
