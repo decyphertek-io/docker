@@ -1,0 +1,79 @@
+# https://github.com/hallmanhe/honeypots-docker/blob/master/docker-compose.yml
+
+services:
+  cowrie:
+    restart: always
+    build: 
+      context: ./cowrie
+    network_mode: "bridge"
+    image: hallmanhe/cowrie:latest
+    container_name: cowrie
+    ports:
+      - "22:2222"
+     # - "2223:2223"
+    volumes:
+      # Map a local cowrie config dir into the container.
+      - "/root/cowrie_honeypot/etc:/cowrie/cowrie-git/etc"
+      # Make cowrie logs persistent through container recreates.
+      - "/root/cowrie_honeypot/var:/cowrie/cowrie-git/var"
+
+  p0f:
+    restart: always
+    build:
+     context: ./p0f
+    network_mode: "host"  #bridge host none container:[service name]  container:[container name/id]
+    image: hallmanhe/p0f:latest
+    container_name: p0f
+    volumes:
+     #Map a supervisor config dir into the container
+     - /root/p0f_honeypot/etc/supervisor:/etc/supervisor/conf.d
+     #Make p0f logs persistent throuth container recreates
+     - /root/p0f_honeypot/var/log:/var/log/p0f
+
+  glastopf:
+    restart: always
+    build:
+     context: ./glastopf
+    network_mode: "bridge"
+    image: hallmanhe/glastopf
+    container_name: glastopf
+    ports:
+     - "80:80" #http
+    volumes:
+     - /root/glastopf_honeypot:/opt/myhoneypot
+
+  suricata:
+    restart: always
+    build:
+     context: ./suricata
+    network_mode: "host"
+    image: hallmanhe/suricata
+    container_name: suricata
+    volumes:
+     - /root/suricata_honeypot/etc/supervisor:/etc/supervisor/conf.d
+     - /root/suricata_honeypot/etc/suricata:/opt/suricata/etc/suricata
+     - /root/suricata_honeypot/var/log:/var/log/suricata
+
+  dionaea:
+    restart: always
+    build:
+      context: ./dionaea
+    network_mode: "bridge"
+    image: hallmanhe/dionaea
+    container_name: dionaea
+    ports:
+     - "21:21" #Ftp
+     - "69:69/udp" #Tftp
+     - "135:135" #MS DCE RPC
+     - "1433:1433" #MS SQL Server
+     - "1723:1723" #PPTP
+     - "1883:1883" #MQTT
+     - "3306:3306" #MySQL
+     - "5060:5060" #sip
+     - "5060:5060/udp" #sip
+     - "5061:5061" #sip
+     - "11211:11211" #Memcached
+     - "27017:27017" #MongoDB
+    volumes:
+     - /root/dionaea_honeypot/var/log:/opt/dionaea/var/log/dionaea
+#     - /root/dionaea_honeypot/etc:/opt/dionaea/etc/dionaea
