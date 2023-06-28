@@ -1,0 +1,2 @@
+# https://github.com/smallcloudai/refact-self-hosting
+# docker run --rm -p 8008:8008 -v refact_workdir:/workdir --env SERVER_MODEL=<model name> smallcloud/refact_self_hosting
