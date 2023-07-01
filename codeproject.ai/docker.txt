@@ -1,0 +1,6 @@
+# https://www.codeproject.com/AI/docs/why/running_in_docker.html
+
+docker run --name CodeProject.AI -d -p 32168:32168 \
+ --mount type=bind,source=/etc/codeproject/ai,target=/etc/codeproject/ai \
+ --mount type=bind,source=/opt/codeproject/ai,target=/app/modules \
+   codeproject/ai-server
