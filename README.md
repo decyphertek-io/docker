@@ -75,7 +75,7 @@ Manage Docker
     # Enter docker bash shell
     $ docker exec -it ContainerName bash
     # Execute docker command from terminal
-    $ docker exec -it ContainerName 
+    $ docker exec ContainerName apt update && apt install vim
     # Make a custom Image
     $ docker commit ContainerName NewName
 
