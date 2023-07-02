@@ -1,2 +1,2 @@
-# 
+# https://dashy.to/docs/
 docker run -d --restart unless-stopped -p 80:80 lissy93/dashy
