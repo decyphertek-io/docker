@@ -9,7 +9,7 @@ services:
     image: mautic/mautic:latest
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - /home/$USER/.docker/mautic_data:/var/www/html
     environment:
