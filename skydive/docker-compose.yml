@@ -1,4 +1,5 @@
 # https://github.com/skydive-project/skydive/blob/master/contrib/docker/docker-compose.yml
+# user:pass = admin:admin 
 
 services:
   elasticsearch:
