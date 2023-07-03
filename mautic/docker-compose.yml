@@ -1,5 +1,6 @@
 # https://github.com/mautic/docker-mautic
 # docker-compose transposed from docker command, untested. 
+# needs work, port 80 unreachable. 
 
 services:
   mautic:
