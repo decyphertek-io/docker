@@ -1,4 +1,6 @@
 # https://github.com/docker-mailserver/docker-mailserver/blob/master/compose.yaml
+# Error - Error response from daemon: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: error mounting "/etc/localtime" to rootfs at "/etc/localtime": mount /etc/localtime:/etc/localtime (via /proc/self/fd/6), flags: 0x5001, data: context="system_u:object_r:svirt_lxc_file_t:s0:c367,c434": not a directory: unknown: Are you trying to mount a directory onto a file (or vice-versa)? Check if the specified host path exists and is the expected type
+# Troubleshooting
 
 services:
   mailserver:
