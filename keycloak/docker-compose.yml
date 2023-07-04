@@ -1,4 +1,5 @@
 # https://registry.hub.docker.com/r/bitnami/keycloak
+# HTTPS Required error.......
 
 services:
   postgresql:
