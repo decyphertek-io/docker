@@ -1,5 +1,6 @@
 # https://github.com/goauthentik/authentik/blob/main/docker-compose.yml
 # https://goauthentik.io/docs/installation/docker-compose
+# https://www.youtube.com/watch?v=CPURnYaW3Zk
 
 services:
   postgresql:
