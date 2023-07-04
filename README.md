@@ -7,7 +7,9 @@ Enterprise or dev applications.
 Disclaimer:
 -----------
 
-    This is a work in progress, not all is tested. Experimental.  
+    This collection of docker compose is not completely tested and not all is in docker compose format currently. 
+    This is a work in progress to get all to docker compose format , tested, and able to launch all with the startup
+    script. The current startup script is limited. 
 
 Getting Started
 ---------------
