@@ -1,19 +1,24 @@
-# https://www.keycloak.org/getting-started/getting-started-docker
-# docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:21.1.1 start-dev
-# vim keycloak.env and set the variables.
-# docker-compose --env-file .env up -d
-# <OR>
-# docker compose --env-file .env up -d
-# docker-compose doesnt work , the above command does, doesnt even work with an nginx reverse proxy, still redirects to port 8080?
-# Need HTTPS Error, work in progress.......
+# https://registry.hub.docker.com/r/bitnami/keycloak
 
 services:
-  keycloak:
-    image: quay.io/keycloak/keycloak:21.1.1
-    container_name: keycloak
-    ports:
-      - '8080:8080'
+  postgresql:
+    image: docker.io/bitnami/postgresql:latest
     environment:
-      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN}
-      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
-    restart: unless-stopped
+      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=bn_keycloak
+      - POSTGRESQL_DATABASE=bitnami_keycloak
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+  keycloak:
+    image: docker.io/bitnami/keycloak:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_CREATE_ADMIN_USER=true
+    depends_on:
+      - postgresql
+    #volumes:
+      #- './mynewtheme:/opt/bitnami/keycloak/themes/mynewtheme'
+volumes:
+  postgresql_data:
+    driver: local
