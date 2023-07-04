@@ -1,0 +1,14 @@
+# https://github.com/uvdesk/community-skeleton/wiki/dockerize-helpdesk-project
+# https://hub.docker.com/r/windcontainer/uvdesk
+
+services:
+    uvdesk:
+        image: windcontainer/uvdesk
+        tty: true
+        environment:
+            MYSQL_USER: uvdesk
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: uvdesk
+        ports:
+            - 80:80
