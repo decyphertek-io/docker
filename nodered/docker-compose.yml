@@ -1,0 +1,12 @@
+# https://nodered.org/docs/getting-started/docker
+# docker run -it -p 1880:1880 -v node_red_data:/data --name nodered nodered/node-red
+
+services:
+  nodered:
+    container_name: nodered
+    image: nodered/node-red
+    restart: unless-stopped
+    ports:
+      - 1880:1880
+    volumes:
+      - node_red_data:/data
