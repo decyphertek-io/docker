@@ -4,6 +4,7 @@
 # Optional: container_name: authentik-name
 # docker-compose pull
 # docker-compose up -d
+# https://ip-of-server:8443/if/flow/initial-setup/
 
 
 services:
@@ -52,7 +53,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${COMPOSE_PORT_HTTP}:9000"
+      #- "${COMPOSE_PORT_HTTP}:9000"
       - "${COMPOSE_PORT_HTTPS}:9443"
     depends_on:
       - postgresql
