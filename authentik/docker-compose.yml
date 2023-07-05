@@ -1,7 +1,6 @@
 # https://github.com/goauthentik/authentik/blob/main/docker-compose.yml
 # https://goauthentik.io/docs/installation/docker-compose
 # https://www.youtube.com/watch?v=CPURnYaW3Zk
-# Optional: container_name: authentik-name
 # docker-compose pull
 # docker-compose up -d
 # https://ip-of-server:8443/if/flow/initial-setup/
@@ -9,6 +8,7 @@
 
 services:
   postgresql:
+    container_name: authentik-postgres
     image: docker.io/library/postgres:12-alpine
     restart: unless-stopped
     healthcheck:
@@ -26,6 +26,7 @@ services:
     env_file:
       - .env
   redis:
+    container_name: authentik-redis
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
@@ -38,6 +39,7 @@ services:
     volumes:
       - redis:/data
   server:
+    container_name: authentik-server
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.4}
     restart: unless-stopped
     command: server
@@ -59,6 +61,7 @@ services:
       - postgresql
       - redis
   worker:
+    container_name: authentik-worker
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.4}
     restart: unless-stopped
     command: worker
