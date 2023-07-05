@@ -1,11 +1,11 @@
 # https://github.com/goauthentik/authentik/blob/main/docker-compose.yml
 # https://goauthentik.io/docs/installation/docker-compose
 # https://www.youtube.com/watch?v=CPURnYaW3Zk
+# Optional: container_name: authentik-name
 
 
 services:
   postgresql:
-    container_name: authentik-postgressql
     image: docker.io/library/postgres:12-alpine
     restart: unless-stopped
     healthcheck:
@@ -18,12 +18,11 @@ services:
       - database:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: ${PG_PASS}
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_DB: ${PG_DB}
+      POSTGRES_USER: ${PG_USER:-authentik}
+      POSTGRES_DB: ${PG_DB:-authentik}
     env_file:
       - .env
   redis:
-    container_name: authentik-redis
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
@@ -36,15 +35,14 @@ services:
     volumes:
       - redis:/data
   server:
-    container_name: authentik-server
-    image: ghcr.io/goauthentik/server:latest
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.4}
     restart: unless-stopped
     command: server
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
-      AUTHENTIK_POSTGRESQL__USER: ${PG_USER}
-      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB}
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
       - ./media:/media
@@ -52,22 +50,27 @@ services:
     env_file:
       - .env
     ports:
-      - "80:9000"
-      - "443:9443"
+      - "${COMPOSE_PORT_HTTP}:9000"
+      - "${COMPOSE_PORT_HTTPS}:9443"
     depends_on:
       - postgresql
       - redis
   worker:
-    container_name: authentik-worker
-    image: ghcr.io/goauthentik/server:latest
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2023.5.4}
     restart: unless-stopped
     command: worker
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
-      AUTHENTIK_POSTGRESQL__USER: ${PG_USER}
-      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB}
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+    # `user: root` and the docker socket volume are optional.
+    # See more for the docker socket integration here:
+    # https://goauthentik.io/docs/outposts/integrations/docker
+    # Removing `user: root` also prevents the worker from fixing the permissions
+    # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
+    # (1000:1000 by default)
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
