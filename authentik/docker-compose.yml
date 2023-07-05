@@ -2,6 +2,8 @@
 # https://goauthentik.io/docs/installation/docker-compose
 # https://www.youtube.com/watch?v=CPURnYaW3Zk
 # Optional: container_name: authentik-name
+# docker-compose pull
+# docker-compose up -d
 
 
 services:
