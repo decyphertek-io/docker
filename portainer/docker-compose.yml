@@ -2,6 +2,7 @@
 
 services:
   portainer:
+    container_name: portainer
     image: portainer/portainer-ce:latest
     ports:
       - 9443:9443
