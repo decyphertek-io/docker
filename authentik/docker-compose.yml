@@ -2,9 +2,10 @@
 # https://goauthentik.io/docs/installation/docker-compose
 # https://www.youtube.com/watch?v=CPURnYaW3Zk
 
+
 services:
   postgresql:
-    container_name: postgressql
+    container_name: authentik-postgressql
     image: docker.io/library/postgres:12-alpine
     restart: unless-stopped
     healthcheck:
@@ -22,7 +23,7 @@ services:
     env_file:
       - .env
   redis:
-    container_name: redis
+    container_name: authentik-redis
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
@@ -51,8 +52,8 @@ services:
     env_file:
       - .env
     ports:
-      - "8000:9000"
-      - "8443:9443"
+      - "80:9000"
+      - "443:9443"
     depends_on:
       - postgresql
       - redis
@@ -67,12 +68,6 @@ services:
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB}
       AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
-    # `user: root` and the docker socket volume are optional.
-    # See more for the docker socket integration here:
-    # https://goauthentik.io/docs/outposts/integrations/docker
-    # Removing `user: root` also prevents the worker from fixing the permissions
-    # on the mounted folders, so when removing this make sure the folders have the correct UID/GID
-    # (1000:1000 by default)
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
