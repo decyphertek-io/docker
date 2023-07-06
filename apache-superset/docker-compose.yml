@@ -1,5 +1,6 @@
 # https://github.com/apache/superset/blob/master/docker-compose.yml
 
+
 x-superset-image: &superset-image apache/superset:${TAG:-latest-dev}
 x-superset-user: &superset-user root
 x-superset-depends-on: &superset-depends-on
@@ -24,7 +25,7 @@ services:
       - redis:/data
 
   db:
-    env_file: docker/.env
+    env_file: .env
     image: postgres:14
     container_name: superset_db
     restart: unless-stopped
@@ -34,10 +35,10 @@ services:
       - db_home:/var/lib/postgresql/data
 
   superset:
-    env_file: docker/.env
+    env_file: .env
     image: *superset-image
     container_name: superset_app
-    command: ["/app/docker/docker-bootstrap.sh", "app"]
+    command: ["docker-bootstrap.sh", "app"]
     restart: unless-stopped
     ports:
       - 8088:8088
@@ -78,8 +79,8 @@ services:
   superset-init:
     image: *superset-image
     container_name: superset_init
-    command: ["/app/docker/docker-init.sh"]
-    env_file: docker/.env
+    command: ["docker-init.sh"]
+    env_file: .env
     depends_on: *superset-depends-on
     user: *superset-user
     volumes: *superset-volumes
@@ -91,16 +92,16 @@ services:
   superset-node:
     image: node:16
     container_name: superset_node
-    command: ["/app/docker/docker-frontend.sh"]
-    env_file: docker/.env
+    command: ["docker-frontend.sh"]
+    env_file: .env
     depends_on: *superset-depends-on
     volumes: *superset-volumes
 
   superset-worker:
     image: *superset-image
     container_name: superset_worker
-    command: ["/app/docker/docker-bootstrap.sh", "worker"]
-    env_file: docker/.env
+    command: ["docker-bootstrap.sh", "worker"]
+    env_file: .env
     restart: unless-stopped
     depends_on: *superset-depends-on
     user: *superset-user
@@ -114,8 +115,8 @@ services:
   superset-worker-beat:
     image: *superset-image
     container_name: superset_worker_beat
-    command: ["/app/docker/docker-bootstrap.sh", "beat"]
-    env_file: docker/.env
+    command: ["docker-bootstrap.sh", "beat"]
+    env_file: .env
     restart: unless-stopped
     depends_on: *superset-depends-on
     user: *superset-user
@@ -126,8 +127,8 @@ services:
   superset-tests-worker:
     image: *superset-image
     container_name: superset_tests_worker
-    command: ["/app/docker/docker-bootstrap.sh", "worker"]
-    env_file: docker/.env
+    command: ["docker-bootstrap.sh", "worker"]
+    env_file: .env
     environment:
       DATABASE_HOST: localhost
       DATABASE_DB: test
