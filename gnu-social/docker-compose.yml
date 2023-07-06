@@ -1,0 +1,108 @@
+# https://github.com/diogogithub/gnu-social/blob/v3/docker-compose.yaml.default
+
+version: '3'
+
+services:
+    nginx:
+        image: nginx:alpine
+        depends_on:
+            - php
+        restart: always
+        tty: false
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            # Nginx
+            - ./docker/nginx/nginx.conf:/var/nginx/social.conf
+            - ./docker/nginx/domain.sh:/var/nginx/domain.sh
+            # Certbot
+            - ./docker/certbot/www:/var/www/certbot
+            - ./docker/certbot/.files:/etc/letsencrypt
+            # social
+            - ./public:/var/www/social/public
+        env_file:
+            - ./docker/bootstrap/bootstrap.env
+            - ./docker/db/db.env
+        command: /bin/sh -c '/var/nginx/domain.sh;
+                             while :; do
+                                 sleep 6h & wait $${!};
+                                 nginx -s reload;
+                             done &
+                             nginx -g "daemon off;"'
+
+    certbot:
+        image: certbot/certbot
+        # Check for certificate renewal every 12h as
+        # recommended by Let's Encrypt
+        entrypoint: /bin/sh -c 'trap exit TERM;
+                                while :; do
+                                    certbot renew > /dev/null;
+                                    sleep 12h & wait $${!};
+                                done'
+        volumes:
+          - ./docker/certbot/www:/var/www/certbot
+          - ./docker/certbot/.files:/etc/letsencrypt
+
+    php:
+        image: gsocial/php
+        restart: always
+        tty: true
+        ports:
+            - 9000:9000
+        volumes:
+            # Entrypoint
+            - ./docker/php/entrypoint.sh:/entrypoint.sh
+            - ./docker/db/wait_for_db.sh:/wait_for_db.sh
+            - ./docker/social/install.sh:/var/entrypoint.d/social_install.sh
+            # Main files
+            - .:/var/www/social
+            - /var/www/social/docker # exclude docker folder
+        env_file:
+            - ./docker/social/social.env
+            - ./docker/db/db.env
+        command: /entrypoint.sh
+
+    db:
+        image: postgres:alpine
+        restart: always
+        tty: false
+        ports:
+            - 5432:5432
+        environment:
+            - PGDATA=/var/lib/postgres/data
+        env_file:
+            - ./docker/db/db.env
+        volumes:
+            - database:/var/lib/postgres/data
+
+    redis:
+        image: redis:alpine
+        restart: always
+        tty: false
+        volumes:
+            - ./docker/redis/redis.conf:/etc/redis/redis.conf
+        ports:
+            - 6379:6379
+        command: redis-server /etc/redis/redis.conf
+
+    worker:
+        image: gsocial/php
+        restart: always
+        tty: true
+        volumes:
+            # Entrypoint
+            - ./docker/php/entrypoint.sh:/entrypoint.sh
+            - ./docker/db/wait_for_db.sh:/wait_for_db.sh
+            - ./docker/social/install.sh:/var/entrypoint.d/social_install.sh
+            - ./docker/social/worker.sh:/var/entrypoint.d/social_worker.sh
+            # Main files
+            - .:/var/www/social
+            - /var/www/social/docker # exclude docker folder
+        env_file:
+            - ./docker/social/social.env
+            - ./docker/db/db.env
+        command: /entrypoint.sh
+
+volumes:
+    database:
