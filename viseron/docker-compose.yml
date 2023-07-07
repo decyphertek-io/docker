@@ -1,0 +1,15 @@
+# https://viseron.netlify.app/docs/documentation/installation
+
+services:
+  viseron:
+    image: roflcoopter/viseron:latest
+    container_name: viseron
+    volumes:
+      - ~/.docker:/recordings
+      - ~/.docker:/config
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8888:8888
+    environment:
+      - PUID=1000
+      - PGID=1000
