@@ -1,0 +1,2 @@
+# https://github.com/ceph/ceph-container
+$ docker pull quay.io/ceph/ceph:v18.1.2
