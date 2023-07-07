@@ -1,0 +1,2 @@
+# https://www.metabase.com/docs/latest/installation-and-operation/running-metabase-on-docker
+$ docker run -d -p 3000:3000 --name metabase metabase/metabase
