@@ -1,4 +1,8 @@
 # https://github.com/bmarsh9/gapps/blob/main/docker-compose.yml
+# git clone https://github.com/bmarsh9/gapps.git && cd gapps
+# docker-compose up -d
+# The server should be running on http://<your-ip>:5000
+# The default email/password is admin@example.com:admin
 
 services:
   gapps:
