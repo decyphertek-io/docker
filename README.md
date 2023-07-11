@@ -230,7 +230,7 @@ Optional: Gvisor ( Container Security Platform)
     $ sudo apt-get update && sudo apt-get install -y runsc
     # If you have Docker installed, it will be automatically configured.
 
-Optional: RacherDesktop
+Optional: RancherDesktop
 -----------------------
 
     https://rancherdesktop.io/
