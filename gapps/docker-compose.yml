@@ -12,20 +12,18 @@ services:
     ports:
       - "5000:5000"
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
-      - SQLALCHEMY_DATABASE_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}
-      - DEFAULT_EMAIL=${DEFAULT_EMAIL}
-      - DEFAULT_PASSWORD=${DEFAULT_PASSWORD}
-      - RESET_DB=no
+      - SQLALCHEMY_DATABASE_URI=postgresql://${POSTGRES_USER:-db1}:${POSTGRES_PASSWORD:-db1}@${POSTGRES_HOST:-postgres}/${POSTGRES_DB:-db1}
+      - DEFAULT_EMAIL=${DEFAULT_EMAIL:-admin@example.com}
+      - DEFAULT_PASSWORD=${DEFAULT_PASSWORD:-admin}
+      - RESET_DB=${RESET_DB:-no}
       - DOC_LINK=https://github.com/bmarsh9/gapps
-      - VERSION=3.4.7
+      - VERSION=${VERSION:-3.4.7}
       - APP_NAME=Gapps
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER:-db1}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-db1}
+      - POSTGRES_DB=${POSTGRES_DB:-db1}
       - GUNICORN_WORKERS=2
   gapps-worker:
     container_name: gapps-worker
@@ -38,28 +36,24 @@ services:
     #ports:
     #  - "5000:5000"
     restart: unless-stopped
-    env_file:
-      - .env
     environment:
-      - SQLALCHEMY_DATABASE_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}
-      - VERSION=3.4.7
+      - SQLALCHEMY_DATABASE_URI=postgresql://${POSTGRES_USER:-db1}:${POSTGRES_PASSWORD:-db1}@${POSTGRES_HOST:-postgres}/${POSTGRES_DB:-db1}
+      - VERSION=${VERSION:-3.4.7}
       - APP_NAME=Gapps
       - AS_WORKER=yes
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_HOST=${POSTGRES_HOST}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - WORKER_CONCURRENCY=1
+      - POSTGRES_USER=${POSTGRES_USER:-db1}
+      - POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-db1}
+      - POSTGRES_DB=${POSTGRES_DB:-db1}
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-1}
       - WORKER_LOG_LEVEL=DEBUG
   postgres:
     container_name: postgres
     image: postgres
-    env_file:
-      - .env
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:-db1}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-db1}
+      POSTGRES_DB: ${POSTGRES_DB:-db1}
       PGDATA: /data/postgres
     #volumes:
     #   - postgres:/data/postgres
