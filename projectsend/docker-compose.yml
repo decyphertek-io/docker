@@ -1,6 +1,6 @@
 # https://github.com/linuxserver/docker-projectsend
 # Check the IP of the DB, EX: 172.18.0.2 , need to set on first start. 
-# Gets stuck after write to config?
+# Gets stuck after write to config if using https, then finish setup using http, and can login, not sure why?
 
 services:
   projectsend:
