@@ -1,10 +1,10 @@
 # https://github.com/linuxserver/docker-projectsend
-# Requires a mariadb or Mysql db, not sure why they just didnt add that to the docker compose?
+# Check the IP of the DB, EX: 172.18.0.2 , need to set on first start. 
 
 services:
   projectsend:
     depends_on:
-      - mysql
+      - db
     image: lscr.io/linuxserver/projectsend:latest
     container_name: projectsend
     environment:
@@ -13,25 +13,26 @@ services:
       - TZ=Etc/UTC
       - MAX_UPLOAD=5000
     volumes:
-      - ~/.docker/:/config
-      - ~/.docker/:/data
+      - config:/config
+      - data:/data
     ports:
       - 80:80
     restart: unless-stopped
 
-  mysql:
-    container_name: mysql
-    image: mysql/mysql-server:latest
-    hostname: decyphertek
-    volumes:
-      - ~/.docker/:/var/lib/mysql
+  db:
+    image: mariadb
     environment:
-      - MYSQL_DATABASE=projectsend
-      - MYSQL_USER=projectsend
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: projectsend
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - "3306:3306"
     restart: unless-stopped
 
 volumes:
-  projectsend:
-  mysql:
+  config:
+  data:
+  db:
