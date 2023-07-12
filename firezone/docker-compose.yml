@@ -5,6 +5,8 @@
 # docker-compose run --rm firezone bin/migrate
 # docker-compose run --rm firezone bin/create-or-reset-admin
 # docker-compose up -d
+# Currently both methods fail, looks like it is the caddy server isnt working right. 
+# Need to mention on github rearding the issue.
 
 x-deploy: &default-deploy
   restart_policy:
