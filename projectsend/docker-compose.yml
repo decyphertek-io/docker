@@ -1,5 +1,6 @@
 # https://github.com/linuxserver/docker-projectsend
 # Check the IP of the DB, EX: 172.18.0.2 , need to set on first start. 
+# Gets stuck after write to config?
 
 services:
   projectsend:
