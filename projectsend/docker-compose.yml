@@ -1,4 +1,5 @@
 # https://github.com/linuxserver/docker-projectsend
+# Requires a mariadb or Mysql db, not sure why they just didnt add that to the docker compose?
 
 services:
   projectsend:
