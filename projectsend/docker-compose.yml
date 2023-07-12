@@ -10,8 +10,8 @@ services:
       - TZ=Etc/UTC
       - MAX_UPLOAD=5000
     volumes:
-      - <path to data>:/config
-      - <path to data>:/data
+      - ~/.docker/:/config
+      - ~/.docker/:/data
     ports:
       - 80:80
     restart: unless-stopped
