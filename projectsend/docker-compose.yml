@@ -3,6 +3,8 @@
 
 services:
   projectsend:
+    depends_on:
+      - mysql
     image: lscr.io/linuxserver/projectsend:latest
     container_name: projectsend
     environment:
@@ -16,3 +18,20 @@ services:
     ports:
       - 80:80
     restart: unless-stopped
+
+  mysql:
+    container_name: mysql
+    image: mysql/mysql-server:latest
+    hostname: decyphertek
+    volumes:
+      - ~/.docker/:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=projectsend
+      - MYSQL_USER=projectsend
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+    restart: unless-stopped
+
+volumes:
+  projectsend:
+  mysql:
