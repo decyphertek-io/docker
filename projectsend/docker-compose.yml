@@ -1,0 +1,17 @@
+# https://github.com/linuxserver/docker-projectsend
+
+services:
+  projectsend:
+    image: lscr.io/linuxserver/projectsend:latest
+    container_name: projectsend
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - MAX_UPLOAD=5000
+    volumes:
+      - <path to data>:/config
+      - <path to data>:/data
+    ports:
+      - 80:80
+    restart: unless-stopped
