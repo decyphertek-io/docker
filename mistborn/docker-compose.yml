@@ -1,0 +1,259 @@
+# https://gitlab.com/cyber5k/mistborn/-/blob/master/base.yml
+
+volumes:
+  production_postgres_data: {}
+  production_postgres_data_backups: {}
+  production_traefik: {}
+
+services:
+  django:
+    image: "cyber5k/mistborn:${MISTBORN_TAG}"
+    container_name: mistborn_production_django
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "${MISTBORN_DNS_BIND_IP}:5000:5000/tcp" # auth access
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.django-http.rule=Host(`home.mistborn`)"
+      - "traefik.http.routers.django-http.entrypoints=web"
+      - "traefik.http.routers.django-http.middlewares=mistborn_headers@file"
+      - "traefik.http.routers.django-https.rule=Host(`home.mistborn`)"
+      - "traefik.http.routers.django-https.entrypoints=websecure"
+      - "traefik.http.routers.django-https.middlewares=mistborn_headers@file"
+      - "traefik.http.routers.django-https.tls.certresolver=basic"
+      - "traefik.http.services.django-service.loadbalancer.server.port=5000"
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    volumes:
+      - ../mistborn_volumes/base/media:/mistborn-media
+      - ../mistborn_volumes/base/private_media:/mistborn-private-media
+    command: /start
+    restart: unless-stopped
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: mistborn_production_postgres
+    container_name: mistborn_production_postgres
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data
+      - production_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.production/.postgres
+    restart: unless-stopped
+
+  traefik:
+    #build:
+    #  context: .
+    #  dockerfile: ./compose/production/traefik/Dockerfile
+    #image: mistborn_production_traefik
+    image: traefik:v2.8.8
+    container_name: mistborn_production_traefik
+    depends_on:
+      - django
+    volumes:
+      #- production_traefik:/etc/traefik/acme
+      - ./compose/production/traefik/dynamic.toml:/dynamic.toml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ../mistborn_volumes/base/tls:/tls:ro
+    network_mode: host
+      #ports:
+    #  - "0.0.0.0:80:80/tcp"
+    #  - "0.0.0.0:443:443/tcp"
+    #  #- "0.0.0.0:8080:8080/tcp" # dashboard
+    command:
+      ## API settings
+      #- --api.insecure=true
+      #- --api.dashboard=true
+      #- --api.debug=true
+      ## Logs
+      - --log.level=ERROR
+      ## Providers
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.file.filename=/dynamic.toml
+      #- --providers.docker.network=default
+      ## Entrypoints
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      ## Certificates
+      #- --serversTransport.insecureSkipVerify=true
+    restart: unless-stopped
+
+  portal:
+    build:
+      context: ./compose/production/portal/
+      dockerfile: Dockerfile
+    image: mistborn_production_portal
+    container_name: mistborn_production_portal
+    ports:
+      - "${MISTBORN_DNS_BIND_IP}:5001:80"
+    environment:
+      - SERVER_REDIRECT=home.mistborn
+    # optionally define path to redirect all requests
+    # if not set nginx var $request_uri is used
+      - SERVER_REDIRECT_PATH=/
+    # optionally define schema to redirect all requests
+    # if not set but X-Forwarded-Proto is send as request header with value 'https' this will be used.
+    # In all other cases nginx var `$scheme` is used
+    #- SERVER_REDIRECT_SCHEME=https
+    # optionally define the http code to use for redirection
+    # allowed Codes are: 301, 302, 303, 307, 308, default is 301
+    #- SERVER_REDIRECT_CODE=301
+    # optionally define the http code to redirect POST requests
+    # if not set or not in allowed Codes, SERVER_REDIRECT_CODE will be used
+    #- SERVER_REDIRECT_POST_CODE=
+    # optionally define the http code to redirect PUT, PATCH and DELETE requests
+    # if not set or not in allowed Codes, SERVER_REDIRECT_CODE will be used
+    #- SERVER_REDIRECT_PUT_PATCH_DELETE_CODE=
+    # optionally define the location for the nginx access log
+    # if not set /dev/stdout is used
+    #- SERVER_ACCESS_LOG=/dev/null
+    # optionally define the location for the nginx error log
+    # if not set /dev/stderr is used
+    #- SERVER_ERROR_LOG=/dev/null
+    restart: unless-stopped
+  
+  redis:
+    image: redis:5.0
+    container_name: mistborn_production_redis
+    restart: unless-stopped
+
+  celeryworker:
+    image: "cyber5k/mistborn:${MISTBORN_TAG}"
+    container_name: mistborn_production_celeryworker
+    volumes:
+      - /home/mistborn/.ssh:/ssh
+      - ../mistborn_volumes/base/media:/mistborn-media
+      - ../mistborn_volumes/base/private_media:/mistborn-private-media
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+      - ./.envs/.production/.pihole
+    networks:
+      default:
+      dns_net:
+        ipv4_address: 10.2.1.3
+    dns:
+      - 10.2.1.2
+    depends_on:
+      - traefik
+      - pihole
+    command: /start-celeryworker
+    restart: unless-stopped
+  
+  celeryworker-low-priority:
+    image: "cyber5k/mistborn:${MISTBORN_TAG}"
+    container_name: mistborn_production_celeryworker_low_priority
+    volumes:
+      - /home/mistborn/.ssh:/ssh
+      - ../mistborn_volumes/base/media:/mistborn-media
+      - ../mistborn_volumes/base/private_media:/mistborn-private-media
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+      - ./.envs/.production/.pihole
+    networks:
+      default:
+      dns_net:
+        ipv4_address: 10.2.1.4
+    dns:
+      - 10.2.1.2
+    depends_on:
+      - traefik
+      - pihole
+    command: /start-celeryworker-low-priority
+    restart: unless-stopped
+
+  celerybeat:
+    image: "cyber5k/mistborn:${MISTBORN_TAG}"
+    container_name: mistborn_production_celerybeat
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    command: /start-celerybeat
+    restart: unless-stopped
+    
+
+  #flower:
+  #  image: "cyber5k/mistborn:${MISTBORN_TAG}"
+  #  container_name: mistborn_production_flower
+  #  env_file:
+  #    - ./.envs/.production/.django
+  #    - ./.envs/.production/.postgres
+  #  ports:
+  #    - "5555:5555/tcp"
+  #  command: /start-flower
+  #  restart: unless-stopped
+  
+  pihole:
+   container_name: mistborn_production_pihole
+   image: pihole/pihole:2022.09.4
+   env_file:
+     - ./.envs/.production/.pihole
+   ports:
+     - "${MISTBORN_DNS_BIND_IP}:53:53/tcp"
+     - "${MISTBORN_DNS_BIND_IP}:53:53/udp"
+   labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole-http.rule=Host(`pihole.mistborn`)"
+      - "traefik.http.routers.pihole-http.entrypoints=web"
+      - "traefik.http.routers.pihole-http.middlewares=mistborn_auth@file,add-pihole-admin"
+      - "traefik.http.routers.pihole-https.rule=Host(`pihole.mistborn`)"
+      - "traefik.http.routers.pihole-https.entrypoints=websecure"
+      - "traefik.http.routers.pihole-https.middlewares=mistborn_auth@file,add-pihole-admin"
+      - "traefik.http.routers.pihole-https.tls.certresolver=basic"
+      - "traefik.http.middlewares.add-pihole-admin.addPrefix.prefix=/admin"
+      - "traefik.http.services.pihole-service.loadbalancer.server.port=80"
+   environment:
+     - ServerIP=10.2.0.3
+     - PIHOLE_DNS_=10.2.0.2#5054
+     #- DNS1='10.2.0.2#5054' # docs say port 5054, was 54; use network_mode: host to see which port is used
+     #- DNS2=''
+     - IPv6='false'
+     - DNSMASQ_LISTENING=all
+   #  TZ: 'America/New York'
+   # Volumes store your data between container upgrades
+   volumes:
+     - ../mistborn_volumes/base/pihole/etc-pihole:/etc/pihole/
+     - ../mistborn_volumes/base/pihole/etc-dnsmasqd:/etc/dnsmasq.d/
+   dns:
+     - 127.0.0.1
+   networks:
+     default:
+     pihole_net:
+       ipv4_address: 10.2.0.3
+     dns_net:
+       ipv4_address: 10.2.1.2
+   restart: unless-stopped
+
+  dnscrypt-proxy:
+    container_name: mistborn_production_dnscrypt_proxy
+    image: cyber5k/dnscrypt-proxy:latest
+    environment:
+     - DNSCRYPT_LISTEN_PORT=5054
+     # resolvers: https://download.dnscrypt.info/dnscrypt-resolvers/v2/public-resolvers.md
+     #- DNSCRYPT_SERVER_NAMES=['scaleway-fr','google','yandex','cloudflare'] 
+     - DNSCRYPT_SERVER_NAMES=['cloudflare','dnswarden-doh1','dnswarden-doh2','dnswarden-doh3','adguard-dns-doh']
+    networks:
+      pihole_net:
+        ipv4_address: 10.2.0.2
+    restart: unless-stopped
+
+
+networks:
+  pihole_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.2.0.0/29
+  dns_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.2.1.0/24
+
