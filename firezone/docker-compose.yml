@@ -1,10 +1,10 @@
 # https://www.firezone.dev/docs/deploy/docker
 # curl -fsSL https://raw.githubusercontent.com/firezone/firezone/master/docker-compose.prod.yml -o docker-compose.yml
 # docker run --rm firezone/firezone bin/gen-env > .env
-# At a minimum, change the DEFAULT_ADMIN_EMAIL and EXTERNAL_URL variables. Optionally modify other secrets as needed.
-# docker compose run --rm firezone bin/migrate
-# docker compose run --rm firezone bin/create-or-reset-admin
-# docker compose up -d
+# At a minimum, change the DEFAULT_ADMIN_EMAIL and EXTERNAL_URL=https://public-ip  . Optionally modify other secrets as needed.
+# docker-compose run --rm firezone bin/migrate
+# docker-compose run --rm firezone bin/create-or-reset-admin
+# docker-compose up -d
 
 x-deploy: &default-deploy
   restart_policy:
