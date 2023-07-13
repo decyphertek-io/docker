@@ -3,8 +3,8 @@
 
 services:
   cloudbeaver:
-    image: dbeaver/cloudbeaver:latest
     container_name: cloudbeaver
+    image: dbeaver/cloudbeaver:latest
     ports:
       - '8080:8978'
     volumes:

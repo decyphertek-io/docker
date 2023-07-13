@@ -1,5 +1,9 @@
 # https://github.com/gaia-app/gaia/blob/main/docker-compose.yml
-# May need data from github repo.
+# https://docs.gaia-app.io/configuration/gaia-configuration/
+# git clone https://github.com/gaia-app/gaia.git && cd gaia
+# docker-compose up -d
+# http://ip-of-server:8080
+# User: admin Pass: admin123
 
 services:
     gaia:
