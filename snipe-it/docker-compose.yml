@@ -1,0 +1,22 @@
+# https://snipe-it.readme.io/docs/docker
+# https://github.com/linuxserver/docker-snipe-it
+
+services:
+  snipe-it:
+    image: lscr.io/linuxserver/snipe-it:latest
+    container_name: snipe-it
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - APP_URL=http://localhost:8080
+      - MYSQL_PORT_3306_TCP_ADDR=
+      - MYSQL_PORT_3306_TCP_PORT=
+      - MYSQL_DATABASE=
+      - MYSQL_USER=
+      - MYSQL_PASSWORD=
+    volumes:
+      - /path/to/data:/config
+    ports:
+      - 8080:80
+    restart: unless-stopped
