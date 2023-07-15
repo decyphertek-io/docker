@@ -66,7 +66,7 @@ services:
       - APP__APP_LOGS__LOGS_LEVEL=error
       - REDIS__HOSTNAME=redis
       - REDIS__PORT=6379
-      - ELASTICSEARCH__URL=http://elasticsearch:9200
+      - ELASTICSEARCH__URL=http://172.17.0.1:9200
       - MINIO__ENDPOINT=minio
       - MINIO__PORT=9000
       - MINIO__USE_SSL=false
@@ -93,7 +93,7 @@ services:
     image: opencti/worker:5.8.2
     env_file: .env
     environment:
-      - OPENCTI_URL=http://opencti:8080
+      - OPENCTI_URL=http://172.17.0.1:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - WORKER_LOG_LEVEL=info
     depends_on:
@@ -106,7 +106,7 @@ services:
     image: opencti/connector-export-file-stix:5.8.2
     env_file: .env
     environment:
-      - OPENCTI_URL=http://opencti:8080
+      - OPENCTI_URL=http://172.17.0.1:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_EXPORT_FILE_STIX_ID} # Valid UUIDv4
       - CONNECTOR_TYPE=INTERNAL_EXPORT_FILE
@@ -121,7 +121,7 @@ services:
     image: opencti/connector-export-file-csv:5.8.2
     env_file: .env
     environment:
-      - OPENCTI_URL=http://opencti:8080
+      - OPENCTI_URL=http://172.17.0.1:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_EXPORT_FILE_CSV_ID} # Valid UUIDv4
       - CONNECTOR_TYPE=INTERNAL_EXPORT_FILE
@@ -136,7 +136,7 @@ services:
     image: opencti/connector-export-file-txt:5.8.2
     env_file: .env
     environment:
-      - OPENCTI_URL=http://opencti:8080
+      - OPENCTI_URL=http://172.17.0.1:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_EXPORT_FILE_TXT_ID} # Valid UUIDv4
       - CONNECTOR_TYPE=INTERNAL_EXPORT_FILE
@@ -151,7 +151,7 @@ services:
     image: opencti/connector-import-file-stix:5.8.2
     env_file: .env
     environment:
-      - OPENCTI_URL=http://opencti:8080
+      - OPENCTI_URL=http://172.17.0.1:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_IMPORT_FILE_STIX_ID} # Valid UUIDv4
       - CONNECTOR_TYPE=INTERNAL_IMPORT_FILE
@@ -168,7 +168,7 @@ services:
     image: opencti/connector-import-document:5.8.2
     env_file: .env
     environment:
-      - OPENCTI_URL=http://opencti:8080
+      - OPENCTI_URL=http://172.17.0.1:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
       - CONNECTOR_ID=${CONNECTOR_IMPORT_DOCUMENT_ID} # Valid UUIDv4
       - CONNECTOR_TYPE=INTERNAL_IMPORT_FILE
