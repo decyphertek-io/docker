@@ -15,6 +15,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.8.1
     volumes:
       - esdata:/usr/share/elasticsearch/data
+    env_file: .env
     environment:
       # Comment-out the line below for a cluster of multiple nodes
       - discovery.type=single-node
@@ -37,6 +38,7 @@ services:
       - s3data:/data
     ports:
       - "9000:9000"
+    env_file: .env
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}    
@@ -58,6 +60,7 @@ services:
     restart: always
   opencti:
     image: opencti/platform:5.8.2
+    env_file: .env
     environment:
       - NODE_OPTIONS=--max-old-space-size=8096
       - APP__PORT=8080
@@ -93,6 +96,7 @@ services:
     restart: always
   worker:
     image: opencti/worker:5.8.2
+    env_file: .env
     environment:
       - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
@@ -105,6 +109,7 @@ services:
     restart: always
   connector-export-file-stix:
     image: opencti/connector-export-file-stix:5.8.2
+    env_file: .env
     environment:
       - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
@@ -119,6 +124,7 @@ services:
       - opencti
   connector-export-file-csv:
     image: opencti/connector-export-file-csv:5.8.2
+    env_file: .env
     environment:
       - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
@@ -133,6 +139,7 @@ services:
       - opencti
   connector-export-file-txt:
     image: opencti/connector-export-file-txt:5.8.2
+    env_file: .env
     environment:
       - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
@@ -147,6 +154,7 @@ services:
       - opencti
   connector-import-file-stix:
     image: opencti/connector-import-file-stix:5.8.2
+    env_file: .env
     environment:
       - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
@@ -163,6 +171,7 @@ services:
       - opencti
   connector-import-document:
     image: opencti/connector-import-document:5.8.2
+    env_file: .env
     environment:
       - OPENCTI_URL=http://opencti:8080
       - OPENCTI_TOKEN=${OPENCTI_ADMIN_TOKEN}
