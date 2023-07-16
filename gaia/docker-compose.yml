@@ -1,23 +1,31 @@
-# https://github.com/gaia-app/gaia/blob/main/docker-compose.yml
-# https://docs.gaia-app.io/configuration/gaia-configuration/
-# git clone https://github.com/gaia-app/gaia.git && cd gaia
-# docker-compose up -d
-# http://ip-of-server:8080
-# User: admin Pass: admin123
+# https://docs.gaia-app.io/getting-started/quick-start/
 
 services:
-    gaia:
-        build: .
-        image: gaia
-        ports:
-            - '8080:8080'
-        environment:
-            - "GAIA_MONGODB_URI=mongodb://mongo/gaia"
-            - "GAIA_EXTERNAL_URL=http://172.17.0.1:8080"
-            - "GAIA_RUNNER_API_PASSWORD=123456"
+  gaia:
+    image: gaiaapp/gaia
+    container_name: gaia
+    ports: 
+      - 8080:8080
+    env_file: .env
+    environment:
+      - GAIA_MONGODB_URI=mongodb://mongo/gaia
+      - GAIA_RUNNER_API_PASSWORD=${GAIA_RUNNER_API_PASSWORD}
+      - GAIA_EXTERNAL_URL=http://172.17.0.1:8080
+      - GAIA_DEFAULT_ADMIN_PASSWORD=${GAIA_DEFAULT_ADMIN_PASSWORD}
+    restart: unless-stopped
 
-    mongo:
-        build:
-            context: .
-            dockerfile: ./Dockerfile-db
-        image: gaia-db
+  runner:
+    image: gaiaapp/runner
+    container_name: gaia-runner
+    env_file: .env
+    environment:
+      - GAIA_URL=http://gaia:8080
+      - GAIA_RUNNER_API_PASSWORD=${GAIA_RUNNER_API_PASSWORD}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:4.4
+    container_name: mongo-4.4
+    restart: unless-stopped
