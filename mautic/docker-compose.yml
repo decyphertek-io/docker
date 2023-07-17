@@ -1,37 +1,48 @@
 # https://github.com/mautic/docker-mautic
-# docker-compose transposed from docker command, untested. 
-# needs work, port 80 unreachable. 
+
 
 services:
-  mautic:
-    depends_on:
-      - percona
-    container_name: mautic
-    image: mautic/mautic:latest
-    restart: unless-stopped
-    ports:
-      - "80:80"
-    volumes:
-      - /home/$USER/.docker/mautic_data:/var/www/html
-    environment:
-      - MAUTIC_DB_HOST=127.0.0.1 
-      - MAUTIC_DB_USER=root 
-      - MAUTIC_DB_PASSWORD=mypassword 
-      - MAUTIC_DB_NAME=mautic 
-      - MAUTIC_RUN_CRON_JOBS=true 
-      - MAUTIC_TRUSTED_PROXIES=0.0.0.0/0    
-  percona:
-    container_name: percona
+
+  mauticdb:
     image: percona/percona-server:5.7
-    hostname: localhost
-    restart: unless-stopped
+    container_name: mauticdb
     volumes:
-      - /home/$USER/.docker/mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=mypassword
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
-volumes:
+      - MYSQL_ROOT_PASSWORD=mysecret
+    command:
+      --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    networks:
+      - mautic-net
+
   mautic:
-  percona:
+    image: mautic/mautic:latest
+    container_name: mautic
+    links:
+      - mauticdb:mysql
+    depends_on:
+      - mauticdb
+    ports:
+      - 8080:80
+    volumes:
+      - mautic_data:/var/www/html
+    environment:
+      - MAUTIC_DB_HOST=mauticdb
+      - MYSQL_PORT_3306_TCP=3306
+      - MAUTIC_DB_USER=root
+      - MAUTIC_DB_PASSWORD=mysecret
+      - MAUTIC_DB_NAME=mautic
+      - MAUTIC_RUN_CRON_JOBS=true
+    networks:
+      - mautic-net
+
+volumes:
+  mysql_data:
+    driver: local
+  mautic_data:
+    driver: local
+networks:
+  mautic-net:
+    driver: bridge
 
 
