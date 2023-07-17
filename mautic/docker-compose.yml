@@ -1,5 +1,4 @@
 # https://github.com/mautic/docker-mautic
-# W/ Mailhog Example - https://github.com/ScholarshipOwl/mautic-docker-compose/blob/main/docker-compose.yaml
 
 services:
 
