@@ -1,32 +1,34 @@
-# https://earthly.dev/blog/portainer-for-docker-container-management/
+# https://upcloud.com/resources/tutorials/deploy-wordpress-with-docker-compose
 
 services:
 
-  db:
-    image: mysql:8.0
-    container_name: mysql8.0
-    env_file: .env
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=wordpress
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    volumes:
-       - db:/var/lib/mysql
-    restart: unless-stopped
-
-  wordpress:
+wordpress:
     image: wordpress:latest
     container_name: wordpress
-    ports:
-      - 8880:80
+    restart: unless-stopped
+    links:
+     - mariadb:mysql
     env_file: .env
     environment:
-      - WORDPRESS_DB_HOST=db
-      - WORDPRESS_DB_USER=wordpress
-      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
-      - WORDPRESS_DB_NAME=wordpress
+     - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+     - WORDPRESS_DB_USER=root
+    ports:
+     - 80:80
+    volumes:
+     - ./html:/var/www/html
+
+mariadb:
+    image: mariadb
+    container_name: mariadb
     restart: unless-stopped
+    env_file: .env
+    environment:
+     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+     - MYSQL_DATABASE=wordpress
+    volumes:
+     - ./database:/var/lib/mysql
 
 volumes:
-  db:
+  wordpress:
+  mariadb:
+
