@@ -1,27 +1,32 @@
 # https://earthly.dev/blog/portainer-for-docker-container-management/
-# vim wordpress.env and set the variables.
-# docker-compose --env-file wordpress.env up -d
-# <OR>
-# docker compose --env-file wordpress.env up -d
 
 services:
+
   db:
     image: mysql:8.0
+    container_name: mysql8.0
+    env_file: .env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
        - db:/var/lib/mysql
+    restart: unless-stopped
+
   wordpress:
     image: wordpress:latest
+    container_name: wordpress
     ports:
       - 8880:80
+    env_file: .env
     environment:
       - WORDPRESS_DB_HOST=db
-      - WORDPRESS_DB_USER=${MYSQL_USER}
+      - WORDPRESS_DB_USER=wordpress
       - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
-      - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+      - WORDPRESS_DB_NAME=wordpress
+    restart: unless-stopped
+
 volumes:
   db:
