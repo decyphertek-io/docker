@@ -1,4 +1,5 @@
 # https://hub.docker.com/_/postfixadmin
+# http://ip-of-server:8000/setup.php
 
 services:
   db:
