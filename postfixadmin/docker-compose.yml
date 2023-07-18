@@ -2,6 +2,7 @@
 # http://ip-of-server:8000/setup.php
 # Set setup_pasword hash > /opt/postfixadmin/config.local.php
 # php -r 'echo password_hash("password", PASSWORD_DEFAULT);'
+# https://postfix-configuration.readthedocs.io/en/latest/postfixadmin/#configure-postfixadmin
 
 services:
 
