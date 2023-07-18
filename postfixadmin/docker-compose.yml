@@ -4,6 +4,7 @@
 # php -r 'echo password_hash("password", PASSWORD_DEFAULT);'
 # https://postfix-configuration.readthedocs.io/en/latest/postfixadmin/#configure-postfixadmin
 
+
 services:
 
   db:
@@ -12,7 +13,7 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=${MYSQL_RANDOM_ROOT_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=1
       - MYSQL_DATABASE=postfixadmin
       - MYSQL_USER=postfixadmin
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -32,8 +33,5 @@ services:
       - POSTFIXADMIN_DB_USER=postfixadmin
       - POSTFIXADMIN_DB_NAME=postfixadmin
       - POSTFIXADMIN_DB_PASSWORD=${POSTFIXADMIN_DB_PASSWORD}
-     volume:
-      - postfixadmin_config:/opt/postfixadmin/
 
-volumes:
-  postfixadmin_config:
+
