@@ -13,6 +13,7 @@ services:
       --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
     networks:
       - mautic-net
+    restart: unless-stopped
 
   mautic:
     image: mautic/mautic:latest
@@ -34,6 +35,7 @@ services:
       - MAUTIC_RUN_CRON_JOBS=true
     networks:
       - mautic-net
+    restart: unless-stopped
 
 volumes:
   mysql_data:
