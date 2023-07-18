@@ -1,6 +1,7 @@
 # https://hub.docker.com/_/postfixadmin
 # http://ip-of-server:8000/setup.php
-
+# Set setup_pasword hash > /opt/postfixadmin/config.local.php
+# php -r 'echo password_hash("password", PASSWORD_DEFAULT);'
 
 services:
 
@@ -28,3 +29,8 @@ services:
       - POSTFIXADMIN_DB_USER=postfixadmin
       - POSTFIXADMIN_DB_NAME=postfixadmin
       - POSTFIXADMIN_DB_PASSWORD=${POSTFIXADMIN_DB_PASSWORD}
+     volume:
+      - postfixadmin_config:/opt/postfixadmin/
+
+volumes:
+  postfixadmin_config:
