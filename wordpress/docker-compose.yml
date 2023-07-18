@@ -1,34 +1,39 @@
-# https://upcloud.com/resources/tutorials/deploy-wordpress-with-docker-compose
+# https://github.com/docker/awesome-compose/blob/master/wordpress-mysql/compose.yaml
 
 services:
 
-wordpress:
+  db:
+    image: mariadb:10.6.4-focal
+    container_name: mariadb-10.6.4
+    restart: unless-stopped
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    expose:
+      - 3306
+      - 33060
+
+  wordpress:
     image: wordpress:latest
     container_name: wordpress
     restart: unless-stopped
-    links:
-     - mariadb:mysql
-    env_file: .env
-    environment:
-     - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-     - WORDPRESS_DB_USER=root
+    volumes:
+      - wp_data:/var/www/html
     ports:
-     - 80:80
-    volumes:
-     - ./html:/var/www/html
-
-mariadb:
-    image: mariadb
-    container_name: mariadb
-    restart: unless-stopped
-    env_file: .env
+      - 80:80
     environment:
-     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-     - MYSQL_DATABASE=wordpress
-    volumes:
-     - ./database:/var/lib/mysql
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_NAME=wordpress
 
 volumes:
-  wordpress:
-  mariadb:
+  db_data:
+  wp_data:
 
