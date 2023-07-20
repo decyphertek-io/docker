@@ -1,0 +1,6 @@
+# https://github.com/aquasecurity/cloudsploit/tree/master
+$ git clone https://github.com/aquasecurity/cloudsploit.git
+$ cd cloudsploit
+$ docker build . -t cloudsploit:0.0.1
+$ docker run cloudsploit:0.0.1 -h
+$ docker run -e AWS_ACCESS_KEY_ID=XX -e AWS_SECRET_ACCESS_KEY=YY cloudsploit:0.0.1 --compliance=pci
