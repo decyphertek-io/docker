@@ -1,6 +1,5 @@
 # https://github.com/saltcorn/saltcorn/blob/master/deploy/examples/test/docker-compose.yml
-
-version: "3.7"
+# Doesnt work.....
 
 services:
   saltcorn-app:
