@@ -164,7 +164,11 @@ Optional: ghcr.io
     # Github > Settings > Developer Settings > personal access tokens > tokens > Generate new token.
     # Github required permisisons: https://github.com/settings/tokens/new?scopes=write:packages
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
-    # Launch an image , install or build server manually or from bash script. ( Example)
+    # Launch a base container
+    $ docker run -d --name debian debian:latest
+    # Enter container terminal
+    $ docker exec -it debian bash
+    # Install what you wish , then save the server build. 
     $ docker commit debian ghcr.io/USERNAME/CONTAINERNAME:latest
     $ docker push  ghcr.io/USERNAME/CONTAINERNAME:latest
 
