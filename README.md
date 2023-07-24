@@ -162,8 +162,9 @@ Optional: ghcr.io
     # Easy way without a dockerfile. 
     # Make a github access token, dockerfile, and build
     # Github > Settings > Developer Settings > personal access tokens > tokens > Generate new token.
-    # Github required permisisons: https://github.com/settings/tokens/new?scopes=write:packages
+    # Github required permissions: https://github.com/settings/tokens/new?scopes=write:packages
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
+    # You can build with a dockerfile or build it manually , example:
     # Launch a base container
     $ docker run -it -d --name debian debian:latest bash
     # Enter container terminal
