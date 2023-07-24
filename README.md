@@ -165,7 +165,7 @@ Optional: ghcr.io
     # Github required permisisons: https://github.com/settings/tokens/new?scopes=write:packages
     $ docker login --username USERNAMEHERE --password GITHUBKEYHERE ghcr.io
     # Launch a base container
-    $ docker run -d --name debian debian:latest
+    $ docker run -it -d --name debian debian:latest bash
     # Enter container terminal
     $ docker exec -it debian bash
     # Install what you wish , then save the server build. 
