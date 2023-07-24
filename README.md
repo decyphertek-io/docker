@@ -172,6 +172,7 @@ Optional: ghcr.io
     # Install what you wish , then save the server build. 
     $ docker commit debian ghcr.io/USERNAME/CONTAINERNAME:latest
     $ docker push  ghcr.io/USERNAME/CONTAINERNAME:latest
+    # Optional: Login to github > packages > make public > Link to a repo. 
 
 
 Optional: UFW & Docker
