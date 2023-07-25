@@ -1,0 +1,9 @@
+# https://github.com/jsimonetti/docker-gns3-server
+
+docker run \
+    --rm -d \
+    --name gns3 \
+    --net=host --privileged \
+    -e BRIDGE_ADDRESS="172.21.1.1/24" \
+    -v <data path>:/data \
+    jsimonetti/gns3-server:latest 
