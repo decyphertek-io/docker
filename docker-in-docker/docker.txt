@@ -1,0 +1,14 @@
+# https://www.howtogeek.com/devops/how-and-why-to-run-docker-inside-docker/
+
+docker run -d --privileged --name docker 
+
+ -e DOCKER_TLS_CERTDIR=/certs 
+
+
+ -v docker-certs-ca:/certs/ca 
+
+
+ -v docker-certs-client:/certs/client 
+
+
+ docker:dind
