@@ -1,0 +1,4 @@
+# https://github.com/freeipa/freeipa-container
+docker run --name freeipa-server-container -ti \
+    -h ipa.example.test --read-only \
+    -v /var/lib/ipa-data:/data:Z freeipa-server [ opts ]
