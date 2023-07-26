@@ -19,14 +19,18 @@ services:
       - ansible_aws:/root/.aws/
     restart: unless-stopped
 
-  test-container:
-    image: ubuntu:latest
-    container_name: ansible-test-container
-    stdin_open: true 
-    tty: true       
+  openssh-server:
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: openssh-server
+    hostname: openssh-server 
+    volumes:
+      - openssh_data:/root/.ssh/
+    ports:
+      - 2222:2222
     restart: unless-stopped
 
 volumes:
   ansible_data:
   ansible_ssh:
   ansible_aws:
+  openssh_data:
