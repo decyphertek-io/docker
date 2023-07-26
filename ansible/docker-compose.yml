@@ -1,4 +1,9 @@
 # https://github.com/decyphertek-io/docker/pkgs/container/ansible
+# ansible-test-server requires openssh-server
+# docker exec -it ansible-test-server bash
+# apt update && apt install openssh-server
+# configure ssh keys using ssh keygen on ansible server and adding public key to .ssh/authorized_keys
+# Still in dev
 
 services:
 
