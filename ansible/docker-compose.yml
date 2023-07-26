@@ -3,6 +3,7 @@
 # docker exec -it ansible-test-server bash
 # apt update && apt install openssh-server
 # configure ssh keys using ssh keygen on ansible server and adding public key to .ssh/authorized_keys
+# ssh-keygen -t rsa -b 4096
 # Still in dev
 
 services:
