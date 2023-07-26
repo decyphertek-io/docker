@@ -1,7 +1,0 @@
-# https://github.com/AntonOsika/gpt-engineer
-
-docker run -it -d --name gpt-engineer ghcr.io/decyphertek-io/gpt-engineer:latest bash
-docker exec -it gpt-engineer bash
-cd gpt-engineer
-cat README.md 
-follow instructions - Note Openapi key required. 

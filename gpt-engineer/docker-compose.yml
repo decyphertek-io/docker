@@ -1,0 +1,22 @@
+# https://github.com/AntonOsika/gpt-engineer
+# docker exec -it gpt-engineer bash
+# cd gpt-engineer
+# cat README.md 
+# follow instructions - Note Openapi key required. 
+# Make sure to sell gpt-engineer to have the web page accessible on port 8080.
+
+services:
+
+  AI:
+    image: ghcr.io/decyphertek-io/gpt-engineer:latest
+    container_name: gpt-engineer
+    stdin_open: true 
+    tty: true       
+    ports:
+      - 8080:8080
+    volumes:
+      - gpt-engineer_data:/gpt-engineer/
+    restart: unless-stopped
+
+volumes:
+  gpt-engineer_data:
