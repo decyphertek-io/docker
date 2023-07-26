@@ -19,7 +19,7 @@ services:
       - ansible_aws:/root/.aws/
     restart: unless-stopped
 
-    openssh-server:
+  openssh-server:
     image: lscr.io/linuxserver/openssh-server:latest
     container_name: openssh-server
     hostname: openssh-server #optional
