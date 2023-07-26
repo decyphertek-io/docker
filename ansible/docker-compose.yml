@@ -5,7 +5,7 @@
 # configure ssh keys using ssh keygen on ansible server and adding public key to .ssh/authorized_keys
 # ssh-keygen -t ed25519
 # openssh-server has no vim or nano > docker cp authorized_keys openssh-server:/home/adminotaur/.ssh/authorized_keys
-# Still in dev, troubleshooting, ssh -p 2222 adminotaur@172.xx.0.3 fails?
+# Still in dev, troubleshooting, ssh -p 2222 adminotaur@172.xx.0.3 fails? Public key denied?
 
 services:
 
