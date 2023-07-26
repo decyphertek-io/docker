@@ -6,7 +6,7 @@
 # ssh-keygen -t ed25519
 # openssh-server has no vim or nano > docker cp authorized_keys openssh-server:/home/adminotaur/.ssh/authorized_keys
 # docker exec -it openssh-server bash
-# cd /home && chown -R adminotaur adminotaur
+# cd /home && chown -R adminotaur:adminotaur adminotaur
 # Still in dev, troubleshooting, ssh -p 2222 adminotaur@172.xx.0.3 fails? Public key denied?
 
 services:
