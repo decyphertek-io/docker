@@ -37,7 +37,7 @@ services:
       #- USER_PASSWORD_FILE=/path/to/file #optional
       - USER_NAME=adminotaur
     volumes:
-      - openssh_data:/home/adminotaur/.ssh/authorized_keys
+      - openssh_data:/home/adminotaur/.ssh/
     ports:
       - 2222:2222
     restart: unless-stopped
