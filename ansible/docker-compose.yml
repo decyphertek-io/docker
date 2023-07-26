@@ -7,8 +7,6 @@ services:
     container_name: ansible
     stdin_open: true 
     tty: true       
-    #ports:
-      #- 222:22
     volumes:
       - ansible_data:/etc/ansible
       - ansible_ssh:/.ssh/
@@ -20,8 +18,6 @@ services:
     container_name: ansible-test-container
     stdin_open: true 
     tty: true       
-    ports:
-      - 22:22
     restart: unless-stopped
 
 volumes:
