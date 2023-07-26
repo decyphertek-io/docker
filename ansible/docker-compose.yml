@@ -1,4 +1,7 @@
 # https://github.com/decyphertek-io/docker/pkgs/container/ansible
+# Port Error - Error response from daemon: driver failed programming external connectivity on endpoint ansible : 
+# Error starting userland proxy: listen tcp4 0.0.0.0:22: bind: address already in use
+
 
 services:
 
@@ -7,8 +10,8 @@ services:
     container_name: ansible
     stdin_open: true 
     tty: true       
-    ports:
-      - 222:22
+    #ports:
+      #- 222:22
     volumes:
       - ansible_data:/etc/ansible
       - ansible_ssh:/.ssh/
