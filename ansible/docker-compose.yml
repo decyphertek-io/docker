@@ -15,6 +15,15 @@ services:
       - ansible_aws:/.aws/
     restart: unless-stopped
 
+  test-container:
+    image: ubuntu:latest
+    container_name: ansible-test-container
+    stdin_open: true 
+    tty: true       
+    ports:
+      - 22:22
+    restart: unless-stopped
+
 volumes:
   ansible_data:
   ansible_ssh:
