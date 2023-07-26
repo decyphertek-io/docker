@@ -8,6 +8,7 @@
 # docker exec -it openssh-server bash
 # cd /home && chown -R adminotaur:adminotaur adminotaur
 # Still in dev, troubleshooting, ssh -p 2222 adminotaur@172.xx.0.3 fails? Public key denied?
+# Maybe the ssh config is blocking something or permissions issue?
 
 services:
 
