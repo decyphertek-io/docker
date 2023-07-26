@@ -8,7 +8,7 @@ services:
     stdin_open: true 
     tty: true       
     ports:
-      - 22:22
+      - 222:22
     volumes:
       - ansible_data:/etc/ansible
       - ansible_ssh:/.ssh/
