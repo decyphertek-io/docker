@@ -15,8 +15,8 @@ services:
     tty: true       
     volumes:
       - ansible_data:/etc/ansible
-      - ansible_ssh:/.ssh/
-      - ansible_aws:/.aws/
+      - ansible_ssh:/root/.ssh/
+      - ansible_aws:/root/.aws/
     restart: unless-stopped
 
   test-container:
