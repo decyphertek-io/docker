@@ -1,7 +1,0 @@
-# https://github.com/decyphertek-io/docker
-alias ansible="docker run -ti --rm -v ~/.ssh:/root/.ssh -v ~/.aws:/root/.aws -v $(pwd):/apps -w /apps alpine/ansible ansible"
-ansible <follow command>
-
-# https://github.com/decyphertek-io/docker/pkgs/container/ansible
-docker pull ghcr.io/decyphertek-io/ansible:latest
-# replace alpine/ansible with ghcr.io/decyphertek-io/ansible:latest

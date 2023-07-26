@@ -1,0 +1,21 @@
+# https://github.com/decyphertek-io/docker/pkgs/container/ansible
+
+services:
+
+  automation:
+    image: ghcr.io/decyphertek-io/ansible:latest
+    container_name: ansible
+    stdin_open: true 
+    tty: true       
+    ports:
+      - 22:22
+    volumes:
+      - ansible_data:/etc/ansible
+      - ansible_ssh:/.ssh/
+      - ansible_aws:/.aws/
+    restart: unless-stopped
+
+volumes:
+  ansible_data:
+  ansible_ssh:
+  ansible_aws:
