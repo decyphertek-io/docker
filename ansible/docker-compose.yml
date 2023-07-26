@@ -3,7 +3,7 @@
 # docker exec -it ansible-test-server bash
 # apt update && apt install openssh-server
 # configure ssh keys using ssh keygen on ansible server and adding public key to .ssh/authorized_keys
-# ssh-keygen -t rsa -b 4096
+# ssh-keygen -t ed25519
 # Still in dev, troubleshooting, ssh -p 2222 root@172.23.0.2 fails?
 
 services:
@@ -19,12 +19,25 @@ services:
       - ansible_aws:/root/.aws/
     restart: unless-stopped
 
-  openssh-server:
+    openssh-server:
     image: lscr.io/linuxserver/openssh-server:latest
     container_name: openssh-server
-    hostname: openssh-server 
+    hostname: openssh-server #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      #- PUBLIC_KEY=yourpublickey #optional
+      - PUBLIC_KEY_FILE=/home/adminotaur/.ssh/authorized_keys
+      #- PUBLIC_KEY_DIR=/path/to/directory/containing/_only_/pubkeys #optional
+      #- PUBLIC_KEY_URL=https://github.com/username.keys #optional
+      #- SUDO_ACCESS=false #optional
+      #- PASSWORD_ACCESS=false #optional
+      #- USER_PASSWORD=password #optional
+      #- USER_PASSWORD_FILE=/path/to/file #optional
+      - USER_NAME=adminotaur
     volumes:
-      - openssh_data:/root/.ssh/
+      - openssh_data:/home/adminotaur/.ssh/authorized_keys
     ports:
       - 2222:2222
     restart: unless-stopped
