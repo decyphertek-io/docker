@@ -3,15 +3,16 @@
 # username:admin
 # password:changeme
 # DB Password: decyphertek
-# Still in DEV , have to start manually. 
-# docker exec -it bastillion bash
-# service bastillion start
+# Still in DEV , have to start manually , after reboot. May need to add ssh key volume as well. 
+# docker exec bastillion bash service bastillion start
 
 
 services:
   bastillion:
     image: ghcr.io/decyphertek-io/bastillion:latest
     container_name: bastillion
+    command:
+      - service bastillion start
     stdin_open: true 
     tty: true     
     volumes:
