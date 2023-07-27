@@ -13,8 +13,8 @@ services:
     container_name: bastillion
     stdin_open: true 
     tty: true     
-    command:
-      - service bastillion start
+    #command:
+      #- service bastillion start
     volumes:
       - bastillion_data:/opt/
     ports:
