@@ -4,8 +4,7 @@
 # password:changeme
 # DB Password: decyphertek
 # Still in DEV , have to start manually , after reboot. May need to add ssh key volume as well. 
-# docker exec bastillion bash service bastillion start
-
+# docker exec bastillion service bastillion start
 
 services:
   bastillion:
