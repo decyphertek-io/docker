@@ -5,6 +5,12 @@
 # DB Password: decyphertek
 # Still in DEV , have to start manually , after reboot. May need to add ssh key volume as well. 
 # docker exec bastillion service bastillion start
+# ssh issues, need to rebuild base image to include ssh.
+# apt-get update && apt-get install -y openssh-server
+# sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# service ssh start && bash
+# Create a new key , then add public key to system you want to access. 
+# cat /opt/Bastillion-jetty/jetty/bastillion/WEB-INF/classes/keydb/id_rsa.pub
 
 services:
   bastillion:
