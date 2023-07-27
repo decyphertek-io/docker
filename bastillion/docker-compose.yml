@@ -19,8 +19,8 @@ services:
     stdin_open: true 
     tty: true     
     command:
-      - /usr/sbin/service bastillion start
-      - /usr/sbin/service ssh start && /bin/bash
+      - /usr/sbin/service /etc/init.d/bastillion start
+      - /usr/sbin/service /etc/init.d/ssh start && /bin/bash
     volumes:
       - bastillion_data:/opt/
     ports:
