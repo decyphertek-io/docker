@@ -11,10 +11,10 @@ services:
   bastillion:
     image: ghcr.io/decyphertek-io/bastillion:latest
     container_name: bastillion
-    command:
-      - service bastillion start
     stdin_open: true 
     tty: true     
+    command:
+      - service bastillion start
     volumes:
       - bastillion_data:/opt/
     ports:
