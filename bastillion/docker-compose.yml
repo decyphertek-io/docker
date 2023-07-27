@@ -3,7 +3,9 @@
 # username:admin
 # password:changeme
 # DB Password: decyphertek
-# In DEV .....ISSUE, it didnt save the server build for some reason? Not sure why? 
+# In DEV .....ISSUES
+# May have to >  bash /opt/Bastillion-jetty/startBastillion.sh
+
 
 services:
   bastillion:
