@@ -1,7 +1,9 @@
 # https://github.com/decyphertek-io/docker/pkgs/container/ansible
 # ansible-test-server requires openssh-server
 # docker exec -it ansible-test-server bash
-# apt update && apt install openssh-server
+# apt-get update && apt-get install -y openssh-server
+# sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# service ssh start && bash
 # configure ssh keys using ssh keygen on ansible server and adding public key to .ssh/authorized_keys
 # ssh-keygen -t ed25519
 # openssh-server has no vim or nano > docker cp authorized_keys openssh-server:/home/adminotaur/.ssh/authorized_keys
@@ -9,6 +11,7 @@
 # cd /home && chown -R adminotaur:adminotaur adminotaur
 # Still in dev, troubleshooting, ssh -p 2222 adminotaur@172.xx.0.3 fails? Public key denied?
 # Maybe the ssh config is blocking something or permissions issue?
+# Need to rebuild with ssh fix . 
 
 services:
 
