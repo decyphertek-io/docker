@@ -3,12 +3,9 @@
 # username:admin
 # password:changeme
 # DB Password: decyphertek
-# Still in DEV , have to start manually , after reboot. May need to add ssh key volume as well. 
+# Still in DEV , have to start manually one first boot and after reboot. May need to add ssh key volume as well. 
 # docker exec bastillion service bastillion start
-# ssh issues, need to rebuild base image to include ssh.
-# apt-get update && apt-get install -y openssh-server
-# sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-# service ssh start && bash
+# docker exec bastillion service ssh start
 # Create a new key , then add public key to system you want to access. 
 # cat /opt/Bastillion-jetty/jetty/bastillion/WEB-INF/classes/keydb/id_rsa.pub
 
@@ -17,10 +14,11 @@ services:
     image: ghcr.io/decyphertek-io/bastillion:latest
     container_name: bastillion
     stdin_open: true 
-    tty: true     
-    command:
-      - /usr/sbin/service /etc/init.d/bastillion start
-      - /usr/sbin/service /etc/init.d/ssh start && /bin/bash
+    tty: true  
+    # this command fails with an error, research a more elegant solution.    
+    #command:
+      #- /usr/sbin/service /etc/init.d/bastillion start
+      #- /usr/sbin/service /etc/init.d/ssh start && /bin/bash
     volumes:
       - bastillion_data:/opt/
     ports:
