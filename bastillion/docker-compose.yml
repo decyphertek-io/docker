@@ -3,6 +3,10 @@
 # username:admin
 # password:changeme
 # DB Password: decyphertek
+# Still in DEV , have to start manually. 
+# docker exec -it bastillion bash
+# service bastillion start
+
 
 services:
   bastillion:
