@@ -1,0 +1,20 @@
+# https://github.com/decyphertek-io/docker/pkgs/container/bastillion
+# https://ip-of-server:8443
+# username:admin
+# password:changeme
+# DB Password: decyphertek
+# In DEV .....
+
+services:
+  bastillion:
+    image: ghcr.io/decyphertek-io/bastillion:latest
+    container_name: bastillion
+    stdin_open: true 
+    tty: true     
+    volumes:
+      - bastillion_data:/opt/
+    ports:
+      - 8443:8443
+    restart: unless-stopped
+volumes:
+  bastillion_data:
