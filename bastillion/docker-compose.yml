@@ -18,8 +18,9 @@ services:
     container_name: bastillion
     stdin_open: true 
     tty: true     
-    #command:
-      #- service bastillion start
+    command:
+      - /usr/sbin/service bastillion start
+      - /usr/sbin/service ssh start && /bin/bash
     volumes:
       - bastillion_data:/opt/
     ports:
