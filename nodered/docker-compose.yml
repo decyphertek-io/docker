@@ -1,4 +1,4 @@
-# https://nodered.org/docs/getting-started/docker
+# https://github.com/node-red/node-red-docker
 
 services:
   node-red:
