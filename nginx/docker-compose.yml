@@ -8,3 +8,16 @@ services:
     ports:
       - 443:443
     restart: unless-stopped
+
+
+services:
+  debian:
+    image: debian:latest
+    container_name: debian-desktop
+    ports:
+      - 3389:3389
+    volumes:
+      - debian_data:/
+    restart: unless-stopped
+
+
