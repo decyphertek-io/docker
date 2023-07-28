@@ -1,5 +1,7 @@
 # https://github.com/archerysec/archerysec/blob/master/docker-compose.yml
 
+version: '3.6'
+
 services:
   db:
     image: postgres:10.1-alpine
@@ -20,16 +22,17 @@ services:
       - db
     links:
       - db:db
+    env_file: .env
     environment:
-      - DB_PASSWORD=archerysec
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_USER=archerysec
       - NAME=user
-      - EMAIL=adminotaur@decyphertek.io
-      - PASSWORD=admin@123A
+      - EMAIL=admin@user.com
+      - PASSWORD=${PASSWORD}
       - DB_NAME=archerysec
       - DB_HOST=db
       - DJANGO_SETTINGS_MODULE=archerysecurity.settings.development
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-"SETME"}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEBUG=1
       - EMAIL_HOST=mailhog
       - EMAIL_PORT=1025
@@ -84,19 +87,19 @@ services:
       - archerysec
     container_name: arachniscanner
 
-  openvas:
-    image: greenbone/openvas-scanner
-    ports:
-      - "8443:8443"
-      - "9390:9390"
-      - "9392:9392"
-    expose:
-      - "9390"
-      - "9392"
-      - "8443"
-    #links:
-      #- archerysec
-    container_name: openvas
+#  openvas:
+#    image: avhost/docker-openvas
+#    ports:
+#      - "443:443"
+#      - "9390:9390"
+#      - "9392:9392"
+#    expose:
+#      - "9390"
+#      - "9392"
+#      - "443"
+#    links:
+#      - archerysec
+#    container_name: openvas
 
   mailhog:
     image: mailhog/mailhog
@@ -104,4 +107,3 @@ services:
       - "1025:1025"
       - "8025:8025"
     container_name: mailhog
-
