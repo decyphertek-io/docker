@@ -2,7 +2,7 @@
 
 services:
   webtop:
-    image: lscr.io/linuxserver/webtop:latest
+    image: lscr.io/linuxserver/webtop:debian-mate
     container_name: webtop
     security_opt:
       - seccomp:unconfined #optional
