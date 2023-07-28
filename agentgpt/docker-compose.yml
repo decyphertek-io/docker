@@ -1,6 +1,6 @@
 # https://github.com/reworkd/AgentGPT/blob/main/docker-compose.yml
-
-version: '3.9'
+# git clone https://github.com/reworkd/AgentGPT.git && cd AgentGPT
+# docker compose up -d
 
 services:
   next:
