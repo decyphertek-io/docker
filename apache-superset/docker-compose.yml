@@ -1,4 +1,6 @@
 # https://github.com/apache/superset/blob/master/docker-compose.yml
+# https://superset.apache.org/docs/installation/installing-superset-using-docker-compose/
+# git clone https://github.com/apache/superset.git && cd superset && docker compose up -d
 
 
 x-superset-image: &superset-image apache/superset:${TAG:-latest-dev}
