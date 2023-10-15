@@ -1,0 +1,12 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=P@ssword
+      - MYSQL_PASSWORD=P@ssword
+      - MYSQL_USER=decyphertek
+      - MYSQL_DATABASE=decyphertek
