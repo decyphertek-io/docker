@@ -2,6 +2,7 @@
 # simple startup script.
 # curl -f -O https://greenbone.github.io/docs/latest/_static/setup-and-start-greenbone-community-edition.sh && chmod u+x setup-and-start-greenbone-community-edition.sh
 # ./setup-and-start-greenbone-community-edition.sh
+# docker-compose -f docker-compose.yml exec -u gvmd gvmd gvmd --user=admin --new-password=password
 
 services:
   vulnerability-tests:
