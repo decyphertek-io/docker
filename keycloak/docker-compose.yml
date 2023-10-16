@@ -4,20 +4,19 @@
 services:
   postgresql:
     image: postgres:latest
-    container_name: keycloak_postgress
     env_file:
       - .env
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    expose:
+      - "5432"
     volumes:
       - 'postgresql_data:/var/lib/postgresql/data'
-  
+
   keycloak:
     image: quay.io/keycloak/keycloak:latest
-    container_name: keycloak_server
-    command: start --optimized
     env_file:
       - .env
     environment:
@@ -27,14 +26,17 @@ services:
       DB_ADDR: postgresql
       DB_DATABASE: keycloak
       DB_USER: keycloak
-      DB_PASSWORD: password
+      DB_PASSWORD: ${POSTGRES_PASSWORD}  # Changed to variable
     volumes:
       - 'keycloak_data:/opt/keycloak/data/import'
     ports:
-      - "8443:8443"
+      - "8080:8080"
     depends_on:
       - postgresql
 
 volumes:
   postgresql_data:
     driver: local
+  keycloak_data:
+    driver: local
+
