@@ -1,10 +1,11 @@
-# https://registry.hub.docker.com/r/bitnami/keycloak
-# HTTPS Required error.......
-# Update with server version
+# https://www.keycloak.org/getting-started/getting-started-docker
+# https://www.keycloak.org/server/containers
 
 services:
   postgresql:
     image: postgres:latest
+    env_file:
+      - .env
     environment:
       - POSTGRES_DB=keycloak
       - POSTGRES_USER=keycloak
@@ -13,18 +14,20 @@ services:
       - 'postgresql_data:/var/lib/postgresql/data'
   
   keycloak:
-    image: quay.io/keycloak/keycloak:22.0.4
-    command: start-dev
+    image: quay.io/keycloak/keycloak:latest
+    command: start --optimized
+    env_file:
+      - .env
     environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - DB_VENDOR=POSTGRES
-      - DB_ADDR=postgresql
-      - DB_DATABASE=keycloak
-      - DB_USER=keycloak
-      - DB_PASSWORD=password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgresql
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
     ports:
-      - "8080:8080"
+      - "8443:8443"
     depends_on:
       - postgresql
 
