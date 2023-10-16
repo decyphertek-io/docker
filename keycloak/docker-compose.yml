@@ -7,9 +7,9 @@ services:
     env_file:
       - .env
     environment:
-      - POSTGRES_DB=keycloak
-      - POSTGRES_USER=keycloak
-      - POSTGRES_PASSWORD=password
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - 'postgresql_data:/var/lib/postgresql/data'
   
@@ -20,12 +20,14 @@ services:
       - .env
     environment:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       DB_VENDOR: POSTGRES
       DB_ADDR: postgresql
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: password
+    volumes:
+      - 'keycloak_data:/opt/keycloak/data/import'
     ports:
       - "8443:8443"
     depends_on:
