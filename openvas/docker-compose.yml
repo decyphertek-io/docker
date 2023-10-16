@@ -1,4 +1,5 @@
 # https://greenbone.github.io/docs/latest/22.4/container/index.html
+# https://greenbone.github.io/docs/latest/22.4/container/workflows.html
 # simple startup script.
 # curl -f -O https://greenbone.github.io/docs/latest/_static/setup-and-start-greenbone-community-edition.sh && chmod u+x setup-and-start-greenbone-community-edition.sh
 # ./setup-and-start-greenbone-community-edition.sh
