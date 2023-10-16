@@ -4,6 +4,7 @@
 services:
   postgresql:
     image: postgres:latest
+    container_name: keycloak_postgress
     env_file:
       - .env
     environment:
@@ -15,6 +16,7 @@ services:
   
   keycloak:
     image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak_server
     command: start --optimized
     env_file:
       - .env
