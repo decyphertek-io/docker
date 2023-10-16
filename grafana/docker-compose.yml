@@ -10,4 +10,4 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
 volumes:
-  grafana_data: {}
+  grafana_data: 

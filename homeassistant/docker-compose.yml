@@ -10,9 +10,12 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - /path/to/data:/config
+      - homeassistant_config:/config
     ports:
-      - 8123:8123 #optional
-    devices:
-      - /path/to/device:/path/to/device #optional
+      - 8123:8123 
+    #devices:
+      #- /path/to/device:/path/to/device #optional
     restart: unless-stopped
+
+volumes:
+  homeassistant_config:
