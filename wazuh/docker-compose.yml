@@ -1,5 +1,6 @@
 # https://github.com/wazuh/wazuh-docker/blob/master/single-node/docker-compose.yml
 # git clone https://github.com/wazuh/wazuh-docker.git -b v4.5.3
+# cd wazuh-docker/single-node/
 # docker-compose -f generate-indexer-certs.yml run --rm generator
 # docker-compose up -d
 
