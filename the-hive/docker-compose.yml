@@ -12,8 +12,8 @@ services:
     networks:
       - proxy
     volumes:
-      - ./vol/nginx:/etc/nginx/conf.d
-      - ./vol/ssl:/etc/ssl
+      - nginx:/etc/nginx/conf.d
+      - ssl:/etc/ssl
     restart: on-failure
 
   cassandra:
@@ -26,7 +26,7 @@ services:
       - HEAP_NEWSIZE=1G
       - CASSANDRA_CLUSTER_NAME=thp
     volumes:
-      - ./vol/cassandra/data:/var/lib/cassandra/data
+      - cassandra/data:/var/lib/cassandra/data
     networks:
       - backend
 
@@ -49,8 +49,8 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - ./vol/elasticsearch/data:/usr/share/elasticsearch/data
-      - ./vol/elasticsearch/logs:/usr/share/elasticsearch/logs
+      - elasticsearch/data:/usr/share/elasticsearch/data
+      - elasticsearch/logs:/usr/share/elasticsearch/logs
     networks:
       - backend
 
@@ -63,9 +63,9 @@ services:
     ports:
       - '0.0.0.0:9000:9000'
     volumes:
-      - ./vol/thehive/application.conf:/etc/thehive/application.conf
-      - ./vol/thehive/data:/opt/thp/thehive/data
-      - ./vol/thehive/index:/opt/thp/thehive/index
+      - thehive/application.conf:/etc/thehive/application.conf
+      - thehive/data:/opt/thp/thehive/data
+      - thehive/index:/opt/thp/thehive/index
     command:
       --cortex-port 9001
       --cortex-keys ${CORTEX_KEY}
@@ -93,3 +93,13 @@ networks:
   backend:
   proxy:
     external: false
+
+volumes: 
+  nginx:
+  ssl:
+  cassandra/data:
+  elasticsearch/data:
+  elasticsearch/logs:
+  thehive/application.conf:
+  thehive/data:
+  thehive/index:
