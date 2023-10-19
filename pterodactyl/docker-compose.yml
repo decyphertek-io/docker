@@ -5,8 +5,8 @@ x-common:
     &db-environment
     # Do not remove the "&db-password" from the end of the line below, it is important
     # for Panel functionality.
-    MYSQL_PASSWORD: &db-password "CHANGE_ME"
-    MYSQL_ROOT_PASSWORD: "CHANGE_ME_TOO"
+    MYSQL_PASSWORD: &db-password "password"
+    MYSQL_ROOT_PASSWORD: "password"
   panel:
     &panel-environment
     # This URL should be the URL that your reverse proxy routes to the panel server
@@ -24,8 +24,8 @@ x-common:
     MAIL_DRIVER: "smtp"
     MAIL_HOST: "mail"
     MAIL_PORT: "1025"
-    MAIL_USERNAME: ""
-    MAIL_PASSWORD: ""
+    MAIL_USERNAME: "username"
+    MAIL_PASSWORD: "password"
     MAIL_ENCRYPTION: "true"
 
 #

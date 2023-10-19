@@ -1,9 +1,8 @@
 # https://gitlab.com/veloren/veloren/-/raw/master/server-cli/docker-compose.yml
 # https://book.veloren.net/players/server-hosting/on-docker.html
-# docker exec -it valoren-game-server-master bash
-# Issue? admin command not found???
-# (<ROLE> can be either Admin or Moderator.)
-# admin add <USER> <ROLE>
+# docker logs veloren-game-server-master
+# You need airshipper on your desktop and an account ( Versions of server / desktop need to match)
+# point to public Ip and enter your creds.
 
 services:
   game-server:
