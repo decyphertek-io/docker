@@ -1,6 +1,7 @@
 # https://github.com/node-red/node-red-docker
 
 services:
+
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
@@ -8,14 +9,12 @@ services:
     env_file: .env
     environment:
       TZ: UTC
-      NODE_RED_CREDENTIAL_SECRET: password
     ports:
       - 1880:1880
     networks:
       - node-red-net
     volumes:
       - node-red-data:/data
-      - settings.js:/data/settings.js
 
 volumes:
   node-red-data:
