@@ -5,6 +5,7 @@ services:
     image: nodered/node-red:latest
     container_name: node-red
     user: root
+    env_file: .env
     environment:
       TZ: UTC
       NODE_RED_CREDENTIAL_SECRET: password
@@ -14,6 +15,7 @@ services:
       - node-red-net
     volumes:
       - node-red-data:/data
+      - settings.js:/data/settings.js
 
 volumes:
   node-red-data:
