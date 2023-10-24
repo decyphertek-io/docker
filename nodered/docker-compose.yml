@@ -3,6 +3,7 @@
 services:
   node-red:
     image: nodered/node-red:latest
+    container_name: node-red
     user: root
     environment:
       - TZ=UTC
