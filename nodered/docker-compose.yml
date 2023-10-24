@@ -6,9 +6,10 @@ services:
     container_name: node-red
     user: root
     environment:
-      - TZ=UTC
+      TZ: UTC
+      NODE_RED_CREDENTIAL_SECRET: password
     ports:
-      - "1880:1880"
+      - 1880:1880
     networks:
       - node-red-net
     volumes:
