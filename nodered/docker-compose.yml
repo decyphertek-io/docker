@@ -3,8 +3,9 @@
 services:
   node-red:
     image: nodered/node-red:latest
+    user: root
     environment:
-      - TZ=Europe/Amsterdam
+      - TZ=UTC
     ports:
       - "1880:1880"
     networks:
