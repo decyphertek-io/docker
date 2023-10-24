@@ -1,36 +1,43 @@
 # https://github.com/minhng92/odoo-16-docker-compose/blob/master/docker-compose.yml
 
 services:
-  db:
-    image: postgres:15
-    user: root
-    environment:
-      - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=odoo16@2022      
-      - POSTGRES_DB=postgres
-    restart: always             # run as a service
-    volumes:
-        - ./postgresql:/var/lib/postgresql/data
 
-  odoo16:
-    image: odoo:16
+  db:
+    image: postgres:latest
+    user: root
+    env_file: .env
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}     
+      POSTGRES_DB: postgres
+    restart: always          
+    volumes:
+        - postgresql:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:latest
     user: root
     depends_on:
       - db
     ports:
       - "10016:8069"
-      - "20016:8072" # live chat
+      - "20016:8072"
     tty: true
     command: --
+    env_file: .env
     environment:
-      - HOST=db
-      - USER=odoo
-      - PASSWORD=odoo16@2022
+      HOST: db
+      USER: odoo
+      PASSWORD: ${PASSWORD}
     volumes:
       #- /etc/timezone:/etc/timezone:ro
-      #- /etc/localtime:/etc/localtime:ro
-      # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
-      - ./addons:/mnt/extra-addons
-      - ./etc:/etc/odoo
-    restart: always             # run as a service
+      #- /etc/localtime:/etc/localtime:ro  
+      - addons:/mnt/extra-addons
+      - odoo:/etc/odoo
+    restart: always    
+
+volumes:
+  postgresql:
+  addons:
+  odoo:
     
