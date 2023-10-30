@@ -1,8 +1,4 @@
 # https://github.com/MISP/misp-docker/blob/master/docker-compose.yml
-# vim misp.env and set the variables.
-# docker-compose --env-file misp.env up -d
-# <OR>
-# docker compose --env-file misp.env up -d
 
 services:
   web:
@@ -11,37 +7,39 @@ services:
       - db
     container_name: misp_web
     image: misp:latest
-    restart: unless-stopped
+    restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
+      - 443:443
     volumes:
-      - /dev/urandom:/dev/random
-      - ${DATA_DIR:-./data}/web:/var/www/MISP
+      - misp_random:/dev/random
+      - misp_web:/var/www/MISP
+    env_file: .env
     environment:
-      - MYSQL_HOST=${MYSQL_HOST:-misp_db}
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-misp}
-      - MYSQL_USER=${MYSQL_USER:-misp}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-misp}
-      - MISP_ADMIN_EMAIL=${MISP_ADMIN_EMAIL:-admin@admin.test}
-      - MISP_ADMIN_PASSPHRASE=${MISP_ADMIN_PASSPHRASE:-admin}
-      - MISP_BASEURL=${MISP_BASEURL:-https://localhost}
-      - POSTFIX_RELAY_HOST=${POSTFIX_RELAY_HOST:-relay.fqdn}
-      - TIMEZONE=${TIMEZONE:-UTC}
+      MYSQL_HOST: ${MYSQL_HOST:-misp_db}
+      MYSQL_DATABASE: misp
+      MYSQL_USER: misp
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MISP_ADMIN_EMAIL: ${MISP_ADMIN_EMAIL:-admin@admin.test}
+      MISP_ADMIN_PASSPHRASE: ${MISP_ADMIN_PASSPHRASE}
+      MISP_BASEURL: https://localhost
+      #POSTFIX_RELAY_HOST=${POSTFIX_RELAY_HOST:-relay.fqdn}
+      TIMEZONE: UTC
     entrypoint: "wait-for-it.sh -t 0 -h ${MYSQL_HOST:-misp_db} -p 3306 -- /run.sh"
 
   db:
     container_name: misp_db
-    image: mysql/mysql-server:5.7
+    image: mysql/mysql-server:latest
     hostname: ${MYSQL_HOST:-misp_db}
-    restart: unless-stopped
+    restart: always
     volumes:
-      - ${DATA_DIR:-./data}/db:/var/lib/mysql
+      - mysql:/var/lib/mysql
+    env_file: .env
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-misp}
-      - MYSQL_USER=${MYSQL_USER:-misp}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-misp}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-misp}
+      MYSQL_DATABASE: misp
+      MYSQL_USER: misp
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
 volumes:
   web:
