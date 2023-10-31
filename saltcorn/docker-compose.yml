@@ -1,9 +1,9 @@
 # https://github.com/saltcorn/saltcorn/blob/master/deploy/examples/test/docker-compose.yml
-# Doesnt work.....
 
 services:
+
   saltcorn-app:
-    image: saltcorn/saltcorn
+    image: saltcorn/saltcorn:latest
     container_name: saltcorn
     depends_on:
       - saltcorn-db
@@ -11,37 +11,36 @@ services:
     restart: always
     networks:
       - saltcorn
-    ports: #not needed if using traefik
+    ports: 
       - "3000:3000"
     env_file: .env
     environment:
-      - SALTCORN_SESSION_SECRET=${SALTCORN_SECRET}
-      - PGHOST=saltcorn-db
-      - PGUSER=${PGUSER}
-      - PGDATABASE=${PGDATABASE}
-      - PGPASSWORD=${PGPASSWORD}
-    labels: # If using traefik to reverse proxy into saltcorn
-      - traefik.http.routers.saltcorn-app.rule=Host(`saltcorn.${DOMAIN}`)
-      - traefik.http.routers.saltcorn-app.entrypoints=secure
-      - traefik.http.routers.saltcorn-app.tls.certresolver=leresolver
-      - traefik.http.services.saltcorn-app.loadbalancer.server.port=3000
-      - traefik.enable=true
+      SALTCORN_SESSION_SECRET: ${SALTCORN_SECRET}
+      PGHOST: saltcorn-db
+      PGUSER: postgres
+      PGDATABASE: saltcorn
+      PGPASSWORD: ${PGPASSWORD}
     
   saltcorn-db:
-    image: postgres:13-alpine
+    image: postgres:latest
     container_name: saltcorn-db
     restart: always
     networks:
       - saltcorn
+    expose:
+      - "5432"
     volumes:
-      - ./data:/var/lib/postgresql/data #save the db to a mount point if you wish, otherwise will use docker container management
+      - data:/var/lib/postgresql/data 
       - ./docker-entrypoint-initdb.sql:/docker-entrypoint-initdb.d/init.sql # This is the init script for the database
     env_file: .env
     environment:
-      - POSTGRES_USER=${PGUSER} # initdb.sql script will only work for user "postgres"
-      - POSTGRES_PASSWORD=${PGPASSWORD}
-      - POSTGRES_DB=${PGDATABASE}
+      POSTGRES_USER: postgres # initdb.sql script will only work for user "postgres"
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: saltcorn
 
 networks:
   saltcorn:
     name: saltcorn-net
+
+volumes:
+  data:
