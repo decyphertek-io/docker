@@ -1,10 +1,12 @@
 # https://github.com/invoiceninja/dockerfiles/blob/master/docker-compose.yml
+# https://invoiceninja.github.io/en/self-host-installation/
 
 services:
   server:
     image: nginx
-    restart: always
+    container_name: nginx
     env_file: .env
+    restart: always
     volumes:
       - default.conf:/etc/nginx/conf.d/default.conf:ro
       - nginx-public:/var/www/app/public:ro
@@ -18,10 +20,17 @@ services:
 
   app:
     image: invoiceninja/invoiceninja:latest
+    container_name: invoiceninja
     env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ninja
+      DB_USERNAME: ninja
+      DB_PASSWORD: ${DB_PASSWORD}
     restart: always
     ports:
-      - 
+      - 9000:9000
     volumes:
       - invoiceninja-hosts:/etc/hosts:ro
       - invoiceninja-public:/var/www/app/public:rw,delegated
@@ -33,10 +42,16 @@ services:
 
   db:
     image: mysql:latest
+    container_name: mysql
     ports:
       - 3305:3306
     restart: always
     env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ninjaAdm1nPassword
+      MYSQL_USER: ninja
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ninja
     volumes:
       - mysql:/var/lib/mysql:rw,delegated
     #networks:
