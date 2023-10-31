@@ -6,81 +6,49 @@ services:
     restart: always
     env_file: .env
     volumes:
-      # Vhost configuration
-      #- ./config/caddy/Caddyfile:/etc/caddy/Caddyfiledocker-com
-      - ./config/nginx/in-vhost.conf:/etc/nginx/conf.d/in-vhost.conf:ro
-      - ./docker/app/public:/var/www/app/public:ro
+      - default.conf:/etc/nginx/conf.d/default.conf:ro
+      - nginx-public:/var/www/app/public:ro
     depends_on:
       - app
-    # Run webserver nginx on port 80
-    # Feel free to modify depending what port is already occupied
     ports:
       - "80:80"
       #- "443:443"
-    networks:
-      - invoiceninja
-    extra_hosts:
-      - "in5.localhost:192.168.0.124 " #host and ip
+    #networks:
+     #- invoiceninja
 
   app:
-    image: invoiceninja/invoiceninja:5
+    image: invoiceninja/invoiceninja:latest
     env_file: .env
     restart: always
+    ports:
+      - 
     volumes:
-      - ./config/hosts:/etc/hosts:ro
-      - ./docker/app/public:/var/www/app/public:rw,delegated
-      - ./docker/app/storage:/var/www/app/storage:rw,delegated
+      - invoiceninja-hosts:/etc/hosts:ro
+      - invoiceninja-public:/var/www/app/public:rw,delegated
+      - invoiceninja-storage:/var/www/app/storage:rw,delegated
     depends_on:
       - db
-    networks:
-      - invoiceninja
-    extra_hosts:
-      - "in5.localhost:192.168.0.124 " #host and ip
+    #networks:
+      #- invoiceninja
 
   db:
-    image: mysql:8
-#    When running on ARM64 use MariaDB instead of MySQL
-#    image: mariadb:10.4
-#    For auto DB backups comment out image and use the build block below
-#    build:
-#      context: ./config/mysql
+    image: mysql:latest
     ports:
-      - "3305:3306"
+      - 3305:3306
     restart: always
     env_file: .env
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql:rw,delegated
+      - mysql:/var/lib/mysql:rw,delegated
+    #networks:
+      #- invoiceninja
 
-      # remove comments for next 4 lines if you want auto sql backups
-      #- ./docker/mysql/bak:/backups:rw
-      #- ./config/mysql/backup-script:/etc/cron.daily/daily:ro
-      #- ./config/mysql/backup-script:/etc/cron.weekly/weekly:ro
-      #- ./config/mysql/backup-script:/etc/cron.monthly/monthly:ro
-    networks:
-      - invoiceninja
-    extra_hosts:
-      - "in5.localhost:192.168.0.124 " #host and ip
+#networks:
+  #invoiceninja:
 
-  # THIS IS ONLY A VALID CONFIGURATION FOR IN 4. DO NOT USE FOR IN 5.
-  # cron:
-  #   image: invoiceninja/invoiceninja:alpine-4
-  #   volumes:
-      # - ./docker/app/public:/var/www/app/public:rw,delegated
-      # - ./docker/app/storage:/var/www/app/storage:rw,delegated
-      # - ./docker/app/public/logo:/var/www/app/public/logo:rw,delegated
-  #   entrypoint: |
-  #     /bin/sh -c 'sh -s <<EOF
-  #     trap "break;exit" SIGHUP SIGINT SIGTERM
-  #     sleep 300s
-  #     while /bin/true; do
-  #       ./artisan ninja:send-invoices
-  #       ./artisan ninja:send-reminders
-  #       sleep 1d
-  #     done
-  #     EOF'
-  #   networks:
-  #     - invoiceninja
-  #
-
-networks:
-  invoiceninja:
+volumes:
+  default.conf:
+  nginx-public:
+  mysql:
+  invoiceninja-hosts:
+  invoiceninja-public:
+  invoiceninja-storage:
