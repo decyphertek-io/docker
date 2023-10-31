@@ -1,0 +1,14 @@
+services:
+
+  snappymail:
+    image: kouinkouin/snappymail:latest
+    container_name: snappymail
+    volumes:
+      - mail-data:/snappymail/data
+    ports:
+      - 8888:8888
+      - 9000:9000
+    restart: always
+
+volumes:
+  mail-data:
