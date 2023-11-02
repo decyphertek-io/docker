@@ -1,39 +1,26 @@
-# https://github.com/opengisch/qgis-docker/blob/master/docker-compose.yml
+# https://docs.qgis.org/3.28/en/docs/server_manual/containerized_deployment.html
 
 services:
-  nginx:
-    image: "nginx"
-    volumes:
-     - ./conf/nginx-fcgi-sample.conf:/etc/nginx/nginx.conf
-    ports:
-     - "127.0.0.1:8010:80"
-    networks:
-     - qgis-server-net
-    restart: always
-    depends_on:
-     - qgis-server
-  qgis-server:
-    image: "opengisch/qgis-server:stable"
-    environment:
-      # Do not run the embedded copy of nginx
-      SKIP_NGINX: "true"
-      # Improve rendering performance
-      QGIS_SERVER_PARALLEL_RENDERING: "true"
-      QGIS_SERVER_MAX_THREADS: 4
-      # Limit the maximum size returned by a GetMap
-      QGIS_SERVER_WMS_MAX_HEIGHT: 5000
-      QGIS_SERVER_WMS_MAX_WIDTH: 5000
-    networks:
-     - qgis-server-net
-    volumes:
-     # Data should be mount RO when working
-     # with GeoPackages and more than one QGIS container
-     - ./test/data:/io/data:ro
-     - ./plugins:/io/plugins
-     - ./fonts:/usr/share/fonts
-     - ./svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
-     # - ./conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
-    restart: always
 
-networks:
-  qgis-server-net:
+  qgis-server:
+    image: qgis-server:latest
+    volumes:
+    - qgis_data:/data:ro
+    environment:
+    - LANG=en_EN.UTF-8
+    - QGIS_PROJECT_FILE=/data/osm.qgs
+    - QGIS_SERVER_LOG_LEVEL=0  
+    - DEBUG=1                 
+
+  nginx:
+    image: nginx:latest
+    ports:
+    - 8080:80
+    volumes:
+    - nginx_conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+    - qgis-server
+
+volumes:
+  qgis_data:
+  nginx_conf:
