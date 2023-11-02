@@ -19,7 +19,7 @@ services:
       QGIS_SERVER_WMS_MAX_HEIGHT: 5000
       QGIS_SERVER_WMS_MAX_WIDTH: 5000    
     network:
-       - qgis       
+       qgis:      
 
   nginx:
     image: nginx:latest
@@ -31,10 +31,12 @@ services:
     depends_on:
     - qgis-server
   network:
-    - qgis
+    qgis: 
 
 volumes:
   qgis_data:
   nginx_conf:
 
-
+networks:
+  qgis:
+    driver: bridge
