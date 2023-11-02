@@ -4,16 +4,22 @@ services:
 
   qgis-server:
     image: qgis-server:latest
+    container_name: qgis
     volumes:
     - qgis_data:/data:ro
     environment:
-    - LANG=en_EN.UTF-8
-    - QGIS_PROJECT_FILE=/data/osm.qgs
-    - QGIS_SERVER_LOG_LEVEL=0  
-    - DEBUG=1                 
+    DEBUG: 1  
+    LANG: en_EN.UTF-8
+    QGIS_PROJECT_FILE: /data/osm.qgs
+    QGIS_SERVER_LOG_LEVEL: 0      
+    QGIS_SERVER_PARALLEL_RENDERING: "true"
+    QGIS_SERVER_MAX_THREADS: 4
+    QGIS_SERVER_WMS_MAX_HEIGHT: 5000
+    QGIS_SERVER_WMS_MAX_WIDTH: 5000           
 
   nginx:
     image: nginx:latest
+    container_name: nginx
     ports:
     - 8080:80
     volumes:
