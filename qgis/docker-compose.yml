@@ -3,12 +3,13 @@
 services:
 
   qgis-server:
-    image: qgis-server:latest
+    build: .
+    command: ["/usr/bin/xvfb-run", "--auto-servernum", "--server-num=1", "/usr/bin/spawn-fcgi", "-p", "5555", "-n", "-d", "/home/qgis", "--", "/usr/lib/cgi-bin/qgis_mapserv.fcgi"]
     container_name: qgis
-    volumes:
-    - qgis_data:/data:ro
     ports:
       - 5555:5555
+    volumes:
+    - qgis_data:/data:ro
     environment:
       DEBUG: 1  
       LANG: en_EN.UTF-8
@@ -19,7 +20,7 @@ services:
       QGIS_SERVER_WMS_MAX_HEIGHT: 5000
       QGIS_SERVER_WMS_MAX_WIDTH: 5000    
     network:
-       qgis:      
+       qgis:   
 
   nginx:
     image: nginx:latest
