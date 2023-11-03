@@ -1,10 +1,10 @@
 # https://docs.qgis.org/3.28/en/docs/server_manual/containerized_deployment.html
+# docker-compose up --build -d
 
 services:
 
   qgis-server:
     build: .
-    command: ["/usr/bin/xvfb-run", "--auto-servernum", "--server-num=1", "/usr/bin/spawn-fcgi", "-p", "5555", "-n", "-d", "/home/qgis", "--", "/usr/lib/cgi-bin/qgis_mapserv.fcgi"]
     container_name: qgis
     ports:
       - 5555:5555
@@ -22,21 +22,8 @@ services:
     network:
        qgis:   
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-    - 8080:80
-    volumes:
-    - nginx_conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-    - qgis-server
-  network:
-    qgis: 
-
 volumes:
   qgis_data:
-  nginx_conf:
 
 networks:
   qgis:
