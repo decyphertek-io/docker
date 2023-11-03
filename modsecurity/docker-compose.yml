@@ -1,74 +1,19 @@
-# https://github.com/coreruleset/modsecurity-docker/blob/develop/docker-compose.yml
+# https://hub.docker.com/r/owasp/modsecurity-crs/
 
 services:
-  apache-waf:
-    build:
-      context: .
-      dockerfile: v2-apache/Dockerfile
-    environment:
-      BACKEND: http://backend # https://httpbin.org
-      PORT: "8080"
-      SSL_PORT: "8443"
-      METRICS_ALLOW_FROM: All
-      APACHE_ALWAYS_TLS_REDIRECT: "on"
+  ingress:
+    image:  owasp/modsecurity-crs:nginx
+    container_name: nginx-modsec
+    restart: always
     ports:
-      - "8080:8080"
-      - "8443:8443"
-    user: "10001"
-    depends_on:
-      - backend
-  apache-waf-alpine:
-    build:
-      context: .
-      dockerfile: v2-apache/Dockerfile-alpine
+      - 80:80
     environment:
-      BACKEND: http://backend # https://httpbin.org
-      PORT: "8080"
-      SSL_PORT: "4443"
-      METRICS_ALLOW_FROM: All
-    ports:
-      - "8080:8080"
-      - "4443:4443"
-    user: "10001"
-    depends_on:
-      - backend
-  nginx-waf:
-    build:
-      context: .
-      dockerfile: v3-nginx/Dockerfile
-    environment:
-      BACKEND: http://backend # https://httpbin.org
-      PORT: "8080"
-      SSL_PORT: "4443"
-      DNS_SERVER: "1.1.1.1"
-      METRICS_ALLOW_FROM: all
-    ports:
-      - "8081:8080"
-      - "4444:4443"
-    user: "10001"
-    depends_on:
-      - backend
-    # If you need to modify nginx config, mount your volume as the template file
-    # volumes:
-    #  - ./nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template:rw
-  nginx-waf-alpine:
-    build:
-      context: .
-      dockerfile: v3-nginx/Dockerfile-alpine
-    environment:
-      BACKEND: http://backend # https://httpbin.org
-      PORT: "8080"
-      SSL_PORT: "4443"
-      DNS_SERVER: "1.1.1.1"
-      METRICS_ALLOW_FROM: all
-    ports:
-      - "8081:8080"
-      - "4444:4443"
-    user: "10001"
-    depends_on:
-      - backend
-    # If you need to modify nginx config, mount your volume as the template file
-    # volumes:
-    #  - ./nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template:rw
-  backend:
-    image: docker.io/kennethreitz/httpbin
+      MODSEC_MODE: DetectionOnly  
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d/
+      - exclusion-rules:/etc/modsecurity.d/owasp-crs/rules/
+
+volumes:
+  nginx_conf:
+  exclusion-rules:
+
