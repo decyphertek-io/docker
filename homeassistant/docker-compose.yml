@@ -1,21 +1,12 @@
-# https://github.com/linuxserver/docker-homeassistant
+# https://www.home-assistant.io/installation/alternative/#docker-compose
 
 services:
   homeassistant:
-    image: lscr.io/linuxserver/homeassistant:latest
     container_name: homeassistant
-    network_mode: host
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
+    image: "ghcr.io/home-assistant/home-assistant:stable"
     volumes:
-      - homeassistant_config:/config
-    ports:
-      - 8123:8123 
-    #devices:
-      #- /path/to/device:/path/to/device #optional
+      - /PATH_TO_YOUR_CONFIG:/config
+      - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
-
-volumes:
-  homeassistant_config:
+    privileged: true
+    network_mode: host
