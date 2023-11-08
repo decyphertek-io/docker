@@ -1,0 +1,20 @@
+# https://docs.appflowy.io/docs/appflowy/install-appflowy/installation-methods/installing-with-docker
+
+services:
+  appflowy:
+    image: appflowyio/appflowy_client:main
+    volumes:
+      - $HOME/.Xauthority:/root/.Xauthority:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      #optional - /dev/dri:/dev/dri
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - appflowy-data:/home/appflowy
+    environment:
+      - DISPLAY=${DISPLAY}
+    networks:
+      - hostnet
+
+networks:
+  hostnet:
+    external: true
+    name: host
