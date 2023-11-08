@@ -1,6 +1,7 @@
 # https://github.com/Shuffle/Shuffle/blob/main/docker-compose.yml
 
 services:
+
   frontend:
     image: ghcr.io/shuffle/shuffle-frontend:latest
     container_name: shuffle-frontend
@@ -15,6 +16,7 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
+
   backend:
     image: ghcr.io/shuffle/shuffle-backend:latest
     container_name: shuffle-backend
@@ -34,6 +36,7 @@ services:
       - SHUFFLE_APP_HOTLOAD_FOLDER=/shuffle-apps
       - SHUFFLE_FILE_LOCATION=/shuffle-files
     restart: unless-stopped
+
   orborus:
     image: ghcr.io/shuffle/shuffle-orborus:latest
     container_name: shuffle-orborus
@@ -58,6 +61,7 @@ services:
     restart: unless-stopped
     security_opt:
       - seccomp:unconfined
+      
   opensearch:
     image: opensearchproject/opensearch:2.5.0
     hostname: shuffle-opensearch
