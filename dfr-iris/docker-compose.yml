@@ -5,6 +5,9 @@
 # cp .env.model .env
 # docker-compose build
 # docker-compose up -d
+# https://ip-of-server
+# user - administrator
+# pass - docker compose logs app | grep 'admin'
 
 services:
   rabbitmq:
