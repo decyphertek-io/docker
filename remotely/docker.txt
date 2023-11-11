@@ -1,3 +1,4 @@
 # https://github.com/immense/Remotely
-mkdir -p /var/www/remotely
-docker run -d --name remotely --restart unless-stopped -p 5000:5000 -v /var/www/remotely:/remotely-data immybot/remotely:latest 
+# mkdir -p /var/www/remotely
+# docker run -d --name remotely --restart unless-stopped -p 5000:5000 -v /var/www/remotely:/remotely-data immybot/remotely:latest 
+
