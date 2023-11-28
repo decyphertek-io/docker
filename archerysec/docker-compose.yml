@@ -20,17 +20,16 @@ services:
       - db
     links:
       - db:db
-    env_file: .env
     environment:
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PASSWORD=archerysec
       - DB_USER=archerysec
       - NAME=user
       - EMAIL=admin@user.com
-      - PASSWORD=${PASSWORD}
+      - PASSWORD=admin@123A
       - DB_NAME=archerysec
       - DB_HOST=db
       - DJANGO_SETTINGS_MODULE=archerysecurity.settings.development
-      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY:-"SETME"}
       - DJANGO_DEBUG=1
       - EMAIL_HOST=mailhog
       - EMAIL_PORT=1025
@@ -85,7 +84,7 @@ services:
     container_name: arachniscanner
 
   openvas:
-    image: avhost/docker-openvas
+    image: greenbone/openvas-scanner
     ports:
       - "443:443"
       - "9390:9390"
