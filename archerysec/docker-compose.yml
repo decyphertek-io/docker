@@ -1,7 +1,5 @@
 # https://github.com/archerysec/archerysec/blob/master/docker-compose.yml
 
-version: '3.6'
-
 services:
   db:
     image: postgres:10.1-alpine
@@ -67,7 +65,6 @@ services:
     ports:
       - "8090:8090"
     expose:
-    # ZAP is running on 8090, we want it to be accessible by our tools
       - "8090"
     environment:
       - ZAP_PORT=8090
@@ -87,19 +84,19 @@ services:
       - archerysec
     container_name: arachniscanner
 
-#  openvas:
-#    image: avhost/docker-openvas
-#    ports:
-#      - "443:443"
-#      - "9390:9390"
-#      - "9392:9392"
-#    expose:
-#      - "9390"
-#      - "9392"
-#      - "443"
-#    links:
-#      - archerysec
-#    container_name: openvas
+  openvas:
+    image: avhost/docker-openvas
+    ports:
+      - "443:443"
+      - "9390:9390"
+      - "9392:9392"
+    expose:
+      - "9390"
+      - "9392"
+      - "443"
+    links:
+      - archerysec
+    container_name: openvas
 
   mailhog:
     image: mailhog/mailhog
