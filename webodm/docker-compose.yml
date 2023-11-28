@@ -1,8 +1,5 @@
 # https://github.com/OpenDroneMap/WebODM/blob/master/docker-compose.yml
 
-volumes:
-  dbdata:
-  appmedia:
 services:
   db:
     image: opendronemap/webodm_db
@@ -10,7 +7,7 @@ services:
     expose:
       - "5432"
     volumes:
-      - ${WO_DB_DIR}:/var/lib/postgresql/data:Z
+      - webodm-db:/var/lib/postgresql/data:Z
     restart: unless-stopped
     oom_score_adj: -100
   webapp:
@@ -18,9 +15,9 @@ services:
     container_name: webapp
     entrypoint: /bin/bash -c "chmod +x /webodm/*.sh && /bin/bash -c \"/webodm/wait-for-postgres.sh db /webodm/wait-for-it.sh -t 0 broker:6379 -- /webodm/start.sh\""
     volumes:
-      - ${WO_MEDIA_DIR}:/webodm/app/media:z
+      - webodm-app:/webodm/app/media:z
     ports:
-      - "${WO_PORT}:8000"
+      - 8000:8000
     depends_on:
       - db
       - broker
@@ -44,7 +41,7 @@ services:
     container_name: worker
     entrypoint: /bin/bash -c "/webodm/wait-for-postgres.sh db /webodm/wait-for-it.sh -t 0 broker:6379 -- /webodm/wait-for-it.sh -t 0 webapp:8000 -- /webodm/worker.sh start"
     volumes:
-      - ${WO_MEDIA_DIR}:/webodm/app/media:z
+      - webodm-worker:/webodm/app/media:z
     depends_on:
       - db
       - broker
@@ -53,3 +50,8 @@ services:
       - WO_DEBUG
     restart: unless-stopped
     oom_score_adj: 250
+
+volumes:
+  webodm-db:
+  webodm-app:
+  webodm-worker:
