@@ -1,0 +1,18 @@
+# git clone https://github.com/nsarrazin/serge.git && cd serge
+# cp .env.sample .env
+# docker-compose up -d 
+
+services:
+  serge:
+    image: ghcr.io/serge-chat/serge:latest
+    container_name: serge
+    restart: unless-stopped
+    ports:
+      - 8008:8008
+    volumes:
+      - weights:/usr/src/app/weights
+      - datadb:/data/db/
+
+volumes:
+  weights:
+  datadb:
