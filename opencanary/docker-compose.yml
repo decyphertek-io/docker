@@ -1,4 +1,5 @@
-# https://github.com/thinkst/opencanary/blob/master/docker-compose.yml
+# git clone https://github.com/thinkst/opencanary.git && cd opencanary
+# edit data/.opencanary.conf & docker-compose.yml
 # docker-compose up --build -d latest
 
 x-common: &common
