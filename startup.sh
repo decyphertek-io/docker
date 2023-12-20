@@ -1,6 +1,5 @@
 #!/bin/bash
 # Working progress.
-# Integrate the .env command to certain docker compose commands. 
 # Integrate more interactive choices:
 # what would you like to do? 1. launch a server 2. delete a container 3. example, etc. 
 
