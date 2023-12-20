@@ -1,6 +1,7 @@
 # git clone https://github.com/thinkst/opencanary.git && cd opencanary
 # edit data/.opencanary.conf & docker-compose.yml
 # docker-compose up --build -d latest
+# docker exec -it opencanary_latest hpfeeds subscribe --host localhost -p 10000 -i test -s 12345 -c test.events
 
 x-common: &common
   restart: unless-stopped
