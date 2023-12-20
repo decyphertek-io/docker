@@ -1,4 +1,5 @@
 # https://github.com/thinkst/opencanary/blob/master/docker-compose.yml
+# docker-compose up --build -d latest
 
 x-common: &common
   restart: unless-stopped
@@ -11,15 +12,15 @@ x-common: &common
   ports:
     # Comment/un-comment the port lines below to disable/enable the services you are using
     # FTP
-    - "21:21"
+    #- "21:21"
     # SSH
-    # - "22:22"
+    - "22:22"
     # Telnet
     # - "23:23"
     # TFTP
     # - "69:69"
     # HTTP
-    - "80:80"
+    #- "80:80"
     # NTP
     # - "123:123"
     # SNMP
@@ -27,7 +28,7 @@ x-common: &common
     # MSSQL
     # - "1433:1433"
     # MYSQL
-    # - "3306:3306"
+    - "3306:3306"
     # RDP
     # - "3389:3389"
     # VNC
@@ -41,7 +42,7 @@ x-common: &common
     # HTTP Proxy
     # - "8080:8080"
     # Git
-    # - "9418:9418"
+    - "9418:9418"
 
 services:
   latest: # docker-compose up --build -d latest
