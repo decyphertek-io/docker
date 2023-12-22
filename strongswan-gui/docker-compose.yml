@@ -1,0 +1,23 @@
+# Strongman
+# git clone https://github.com/strongswan/strongMan
+# cd /strongman/docker
+# docker-compose up -d
+
+services:
+  gateway:
+    command: "ipsec start --nofork"
+    build:
+      dockerfile: ./docker/gateway/Dockerfile
+      context: .
+      args:
+        python_version: "${DOCKER_PYTHON_VERSION:?}"
+    privileged: true
+
+  roadwarrior:
+    extends: gateway
+    build:
+      dockerfile: ./docker/roadwarrior/Dockerfile
+      args:
+        python_version: "${DOCKER_PYTHON_VERSION:?}"
+    links:
+     - "gateway"
