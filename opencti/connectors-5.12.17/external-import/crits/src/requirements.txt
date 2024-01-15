@@ -1,0 +1,4 @@
+pycti==5.12.17
+requests
+python-dateutil
+validators

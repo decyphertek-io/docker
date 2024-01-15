@@ -1,0 +1,16 @@
+opencti:
+  url: 'http://localhost:8080'
+  token: 'ChangeMe'
+
+connector:
+  id: 'changeme'
+  type: 'EXTERNAL_IMPORT'
+  name: 'Abuse.ch SSL Blacklist'
+  scope: 'abuse-ssl'
+  confidence_level: 70
+  update_existing_data: True
+  log_level: 'info'
+
+abusessl:
+  url: 'https://sslbl.abuse.ch/blacklist/sslipblacklist.csv' # Required
+  interval: 360 # Required, in minutes
