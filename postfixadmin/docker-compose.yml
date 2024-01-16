@@ -3,13 +3,15 @@
 # Set setup_pasword hash > /opt/postfixadmin/config.local.php
 # php -r 'echo password_hash("password", PASSWORD_DEFAULT);'
 # https://postfix-configuration.readthedocs.io/en/latest/postfixadmin/#configure-postfixadmin
+# Requires PHP, Postfix and one of MySQL, PostgreSQL or SQLite.
 
+
+version: '3.8'
 
 services:
-
   db:
-    image: mysql:5.7
-    container_name: mysql-5.7
+    image: mysql:latest
+    container_name: mysql-latest
     restart: unless-stopped
     env_file: .env
     environment:
@@ -17,6 +19,8 @@ services:
       - MYSQL_DATABASE=postfixadmin
       - MYSQL_USER=postfixadmin
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
 
   postfixadmin:
     depends_on:
@@ -33,5 +37,32 @@ services:
       - POSTFIXADMIN_DB_USER=postfixadmin
       - POSTFIXADMIN_DB_NAME=postfixadmin
       - POSTFIXADMIN_DB_PASSWORD=${POSTFIXADMIN_DB_PASSWORD}
+    volumes:
+      - postfixadmindata:/var/www/html
+
+  postfix:
+    image: mailcow/postfix
+    container_name: postfix
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - postfixdata:/var/spool/postfix
+      - postfixlog:/var/log/postfix
+
+  php:
+    image: php
+    container_name: php
+    restart: unless-stopped
+    volumes:
+      - ./php:/var/www/html
+
+volumes:
+  dbdata:
+  postfixadmindata:
+  postfixdata:
+  postfixlog:
+  php:
+
 
 
