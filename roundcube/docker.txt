@@ -1,0 +1,2 @@
+# https://hub.docker.com/r/roundcube/roundcubemail/
+docker run -e ROUNDCUBEMAIL_DEFAULT_HOST=mail -e ROUNDCUBEMAIL_SMTP_SERVER=mail -p 8000:80 -d roundcube/roundcubemail
