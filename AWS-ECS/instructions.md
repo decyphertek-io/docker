@@ -26,7 +26,7 @@ Configure the ECS CLI:
   Convert Docker Compose to ECS Task Definition:
   Navigate to the directory containing your docker-compose.yml file and run the following command to convert your Docker Compose file to an ECS task definition:
 
-* ecs-cli compose --project-name your-project-name --file docker-compose.yml convert
+* ecs-cli compose create 
   This command will output an ECS task definition in JSON format to the console. You can redirect this output to a file if you need to use it within AWS CLI or AWS Management Console.
 
 Run the ECS Task Definition:
