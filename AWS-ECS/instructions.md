@@ -10,11 +10,13 @@ by the Amazon ECS CLI. This tool allows you to run applications on Amazon ECS us
 
 Install the ECS CLI:
 --------------------
-* Make sure you have the Amazon ECS CLI installed. Instructions for installing it can be found in the Amazon ECS documentation.
+* Linux Example:
+
+* sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
 
 Configure the ECS CLI:
 -----------------------
-* configure ECS CLI with your AWS credentials, region, and the ECS cluster name you want to use. Use the ecs-cli configure command for this.
+* ecs-cli configure profile --access-key $ACCESS_KEY --secret-key $SECRET_KEY
 
 * ecs-cli configure --cluster your-cluster-name --default-launch-type FARGATE --config-name your-config-name --region your-region
   Create an ECS Cluster (if you haven't already):
