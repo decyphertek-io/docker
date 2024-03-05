@@ -1,11 +1,9 @@
-# https://docs.ansible-semaphore.com/administration-guide/installation#docker
+# https://docs.semui.co/administration-guide/installation#package-manager
 
 services:
   # uncomment this section and comment out the mysql section to use postgres instead of mysql
   #postgres:
     #restart: unless-stopped
-    #ports:
-      #- 5432:5432
     #image: postgres:14
     #hostname: postgres
     #volumes: 
@@ -17,8 +15,6 @@ services:
   # if you wish to use postgres, comment the mysql service section below 
   mysql:
     restart: unless-stopped
-    ports:
-      - 3306:3306
     image: mysql:8.0
     hostname: mysql
     volumes:
@@ -38,7 +34,7 @@ services:
       SEMAPHORE_DB_PASS: semaphore
       SEMAPHORE_DB_HOST: mysql # for postgres, change to: postgres
       SEMAPHORE_DB_PORT: 3306 # change to 5432 for postgres
-      SEMAPHORE_DB_DIALECT: mysql
+      SEMAPHORE_DB_DIALECT: mysql # for postgres, change to: postgres
       SEMAPHORE_DB: semaphore
       SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
       SEMAPHORE_ADMIN_PASSWORD: changeme
